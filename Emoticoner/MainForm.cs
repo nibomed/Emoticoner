@@ -87,17 +87,17 @@ namespace Emoticoner
 
             /* Init emoticonLayer */
             emoticonLayer = new EmoticonLayer(this) {
-                Width = Width,
-                Height = Height,
+                Width = ClientSize.Width,
+                Height = ClientSize.Height,
                 Location = new Point(0, 0),
                 MinimalWidth = 80,
                 MinimalHeight = 25,
                 Font = Font,
                 colorScheme = colorScheme
             };
+            emoticonLayer.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left);
             emoticonLayer.MouseClick += mouseClickHandlerRightClickGoTray;
             formMoveHook.SetupHandlers(emoticonLayer);
-            emoticonLayer.Init();
             emoticonLayer.AddEmoticons(emoticonDatabase.GetAll(e => e.id > 0));
             emoticonLayer.UpdateElement();
             Controls.Add(emoticonLayer);

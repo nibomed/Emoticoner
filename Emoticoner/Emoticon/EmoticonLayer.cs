@@ -19,7 +19,9 @@ namespace Emoticoner.Emoticons
         public int MinimalHeight = 25;
         public int Border = 2;
 
+        private int currentEmoticonBaseWidth = 0;
         private int currentWidth = 0;
+        private int currentHeight = 0;
         private MainForm parentForm = null;
         public ColorScheme colorScheme = new ColorScheme();
 
@@ -43,30 +45,53 @@ namespace Emoticoner.Emoticons
 
         private void resizeHandler(object sender, EventArgs e)
         {
-            Init();
-            UpdateElement();
+            if (Visible == true && needResize())
+            {
+                UpdateElement();
+                currentHeight = ClientSize.Height;
+                currentWidth = ClientSize.Width;
+            }
         }
 
-        public void Init()
+        private bool needResize()
+        {
+            if (currentHeight == Height && currentWidth == Width)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void calculateSizes()
         {
             try
             {
                 ColumnCount = ClientSize.Width / (MinimalWidth);
-                currentWidth = ClientSize.Width / ColumnCount - 2 * Border;
-                if (currentWidth <= 0)
+                if (ColumnCount == 0)
                 {
-                    throw (new Exception("EmoticonLayer: Wrong width of cell"));
+                    ColumnCount = 1;
+                }
+                currentEmoticonBaseWidth = ClientSize.Width / ColumnCount - 2 * Border;
+                
+                if (currentEmoticonBaseWidth <= 0)
+                {
+                    currentEmoticonBaseWidth = MinimalWidth;
                 }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        private void setColumStyles()
+        {
             for (int i = 0; i < ColumnCount; i++)
             {
                 ColumnStyles.Add(new ColumnStyle(SizeType.Percent, (float)(1.0 / ColumnCount)));
             }
         }
+
         public void Clear()
         {
             clearTableLayout();
@@ -81,6 +106,19 @@ namespace Emoticoner.Emoticons
             {
                 Controls.Remove(c);
                 c = GetNextControl(this, true);
+            }
+            removeStyles();
+        }
+
+        private void removeStyles()
+        {
+            while (ColumnStyles.Count > 0)
+            {
+                ColumnStyles.RemoveAt(0);
+            }
+            while (RowStyles.Count > 0)
+            {
+                RowStyles.RemoveAt(0);
             }
         }
 
@@ -107,17 +145,19 @@ namespace Emoticoner.Emoticons
             var mouseLeaveHandlerEmo = new EventHandler(mouseLeave);
 
             clearTableLayout();
-            emoticons = new Placer().Place(emoticons, Font, currentWidth, ColumnCount);
+            calculateSizes();
+            setColumStyles();
+            emoticons = new Placer().Place(emoticons, Font, currentEmoticonBaseWidth, ColumnCount);
 
             int x = 0;
             int y = 0;
             for (int i = 0; i < emoticons.Count; i++)
             {
-                int tileWidth = emoticons[i].TileWidth(Font, currentWidth);
+                int tileWidth = emoticons[i].TileWidth(Font, currentEmoticonBaseWidth);
                 Label label = new Label()
                 {
                     Text = emoticons[i].text,
-                    ClientSize = new Size((currentWidth + Border) * tileWidth, MinimalHeight),
+                    ClientSize = new Size((currentEmoticonBaseWidth + Border) * tileWidth, MinimalHeight),
                     TextAlign = ContentAlignment.MiddleCenter,
                     BackColor = colorScheme.color3,
                     Font = Font,
@@ -128,7 +168,6 @@ namespace Emoticoner.Emoticons
                     label.MouseClick += parentForm.mouseClickHandlerRightClickGoTray;
                 }
                 label.MouseClick += mouseClickHandlerEmo;
-                // formMoveHook.SetupHandlers(label);
                 label.MouseHover += mouseHoverHandlerEmo;
                 label.MouseLeave += mouseLeaveHandlerEmo;
 

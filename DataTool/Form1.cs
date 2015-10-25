@@ -31,7 +31,6 @@ namespace DataTool
                 Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left)
             };
-            emoticonLayer.Init();
             emoticonLayer.UpdateElement();
             tableLayoutPanel3.Controls.Add(emoticonLayer, 0, 3);
         }
