@@ -140,13 +140,17 @@ namespace Emoticoner.Emoticons
 
         public void UpdateElement()
         {
+            calculateSizes();
+            clearTableLayout();
+            setColumStyles();
+            placeEmoticons(false);
+        }
+
+        private void placeEmoticons(bool v)
+        {
             var mouseClickHandlerEmo = new MouseEventHandler(mouseClick);
             var mouseHoverHandlerEmo = new EventHandler(mouseHover);
             var mouseLeaveHandlerEmo = new EventHandler(mouseLeave);
-
-            clearTableLayout();
-            calculateSizes();
-            setColumStyles();
             emoticons = new Placer().Place(emoticons, Font, currentEmoticonBaseWidth, ColumnCount);
 
             int x = 0;
