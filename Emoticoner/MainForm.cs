@@ -100,6 +100,15 @@ namespace Emoticoner
             formMoveHook.SetupHandlers(emoticonLayer);
             emoticonLayer.AddEmoticons(emoticonDatabase.GetAll(e => e.id > 0));
             emoticonLayer.UpdateElement();
+
+            /* Scroll magic */
+            emoticonLayer.HorizontalScroll.Maximum = 1;
+            emoticonLayer.VerticalScroll.Maximum = 0;
+            emoticonLayer.HorizontalScroll.Visible = false;
+            emoticonLayer.HorizontalScroll.Enabled = false;
+            emoticonLayer.VerticalScroll.Visible = false;
+            emoticonLayer.AutoScroll = true;
+
             Controls.Add(emoticonLayer);
         }
 
