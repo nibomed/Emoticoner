@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <ArrayOfEmoticon xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Emoticon>
     <text>(-‿‿-)</text>
@@ -179,5 +179,21 @@
   <Emoticon>
     <text>(￣﹃￣)</text>
     <id>44</id>
+  </Emoticon>
+  <Emoticon>
+    <text>人◕ ‿‿ ◕人＼ </text>
+    <id>45</id>
+  </Emoticon>
+  <Emoticon>
+    <text>( . .) </text>
+    <id>46</id>
+  </Emoticon>
+  <Emoticon>
+    <text>＼(｀0´)／ </text>
+    <id>47</id>
+  </Emoticon>
+  <Emoticon>
+    <text>( ∩__∩)_旦~~</text>
+    <id>48</id>
   </Emoticon>
 </ArrayOfEmoticon>
