@@ -42,25 +42,34 @@ namespace DataTool
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     emoticonDatabase.Load(openFileDialog1.FileName);
-                    updateIdInfo();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+            updateComboBox();
         }
 
-        private void updateIdInfo()
+        private void updateComboBox()
         {
-            LabelId.Text = "id:" + emoticonDatabase.GetEmptyIndex().ToString();
+            List<Emoticon> emoList = emoticonDatabase.GetAll(p => p.id != -100);
+            for (int i = 0; i < emoList.Count; i++)
+            {
+                comboBoxEmoticon.Items.Add(emoList[i].text);
+            }
+        }
+
+        private void updateIdInfo(int num)
+        {
+            LabelId.Text = "id:" + num.ToString();
         }
 
         private void buttonSaveClick(object sender, EventArgs e)
         {
             try
             {
-                if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     emoticonDatabase.Save(saveFileDialog1.FileName);
                 }
@@ -73,17 +82,21 @@ namespace DataTool
 
         private void buttonAddClick(object sender, EventArgs e)
         {
-            if (textBoxEmoticon.Text != "")
+            addEmoticon();
+        }
+
+        private void addEmoticon()
+        {
+            if (comboBoxEmoticon.Text != "")
             {
-                if (emoticonDatabase.Add(new Emoticon() { text = textBoxEmoticon.Text }))
+                if (emoticonDatabase.Add(new Emoticon() { text = comboBoxEmoticon.Text }))
                 {
-                    updateIdInfo();
-                    labelInfo.Text = textBoxEmoticon.Text + " succesfull added to DB";
-                    textBoxEmoticon.Text = "";
+                    labelInfo.Text = comboBoxEmoticon.Text + " succesfull added to DB";
+                    comboBoxEmoticon.Text = "";
                 }
                 else
                 {
-                    labelInfo.Text = textBoxEmoticon.Text + " FAIL to add, already exist in database";
+                    labelInfo.Text = comboBoxEmoticon.Text + " FAIL to add, already exist in database";
                 }
             }
             else
@@ -95,13 +108,36 @@ namespace DataTool
         private void layerEmoticonTextChangedHandler(object sender, EventArgs e)
         {
             updateExample();
+            updateId();
+
+        }
+
+        private void updateId()
+        {
+            Emoticon emo = emoticonDatabase.GetByText(comboBoxEmoticon.Text);
+            if (emo == Emoticon.None)
+            {
+                LabelId.Text = "id: " + emoticonDatabase.GetEmptyIndex().ToString() + " (new)";
+            }
+            else
+            {
+                LabelId.Text = "id: " + emo.id.ToString();
+            }
         }
 
         private void updateExample()
         {
             emoticonLayer.Clear();
-            emoticonLayer.AddEmoticon(new Emoticon() { text = textBoxEmoticon.Text });
+            emoticonLayer.AddEmoticon(new Emoticon() { text = comboBoxEmoticon.Text });
             emoticonLayer.UpdateElement();
+        }
+
+        private void comboBoxEmoticon_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                addEmoticon();
+            }
         }
     }
 }
