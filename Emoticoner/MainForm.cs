@@ -79,8 +79,10 @@ namespace Emoticoner
         private void InitializeComponentByHand()
         {
             InitializeForm();
+
             /* Init colorScheme */
             colorScheme = new ColorScheme();
+
             /* Init emoticonDatabase */
             emoticonDatabase = new EmoticonDatabase();
             emoticonDatabase.Load("Emoticons.xml");
@@ -155,7 +157,6 @@ namespace Emoticoner
             {
                 toTray();
             }
-
         }
 
         private void MouseClickHandlerRightClickGoTray(object sender, MouseEventArgs e)
