@@ -39,12 +39,12 @@ namespace Emoticoner.Emoticons
 
         public Emoticon GetById(int id)
         {
-            if (data.Any(f => f.id == id) == false)
+            if (Have(f => f.id == id))
             {
-                return Emoticon.None;
+                return data.Find(f => f.id == id);
             }
 
-            return data.Find(f => f.id == id);
+            return Emoticon.None;
         }
 
         public List<Emoticon> GetAll(Predicate<Emoticon> p)
@@ -54,12 +54,12 @@ namespace Emoticoner.Emoticons
 
         public Emoticon GetByText(string text)
         {
-            if (data.Any(f => f.text == text) == false)
+            if (Have(f => f.text == text))
             {
-                return Emoticon.None;
+                return data.Find(f => f.text == text);
             }
 
-            return data.Find(f => f.text == text);
+            return Emoticon.None;
         }
 
         public int Length()
@@ -84,11 +84,37 @@ namespace Emoticoner.Emoticons
             inDatabase = GetByText(emo.text);
             if (inDatabase == Emoticon.None)
             {
-                data.Add(new Emoticon() { text = emo.text, id = GetEmptyIndex() });
+                data.Add(emo);
                 return true;
             }
 
             return false;
+        }
+
+        public void Merge(Emoticon emo)
+        {
+            if (Add(emo))
+            {
+                return;
+            }
+            Emoticon inDatabase;
+            inDatabase = GetByText(emo.text);
+            if (inDatabase == Emoticon.None)
+            {
+                throw new Exception("EmoticonDatabase say 'You can't be here'");
+            }
+
+            if (emo.tags != null)
+            {
+                inDatabase.tags.Concat(emo.tags);
+                //inDatabase.tags = inDatabase.tags.Concat(emo.tags).Distinct().ToList();
+                inDatabase.tags = inDatabase.tags.Distinct().ToList();
+            }
+        }
+
+        public bool Have(Predicate<Emoticon> p)
+        {
+            return (data.FindIndex(p) > -1);
         }
     }
 }

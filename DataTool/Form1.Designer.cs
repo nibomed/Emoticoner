@@ -123,12 +123,12 @@
             this.textBoxTags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxTags.Enabled = false;
             this.textBoxTags.Location = new System.Drawing.Point(3, 23);
             this.textBoxTags.Multiline = true;
             this.textBoxTags.Name = "textBoxTags";
             this.textBoxTags.Size = new System.Drawing.Size(226, 222);
             this.textBoxTags.TabIndex = 10;
+            this.textBoxTags.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxTagsKeyDownHandler);
             // 
             // labelInfo
             // 

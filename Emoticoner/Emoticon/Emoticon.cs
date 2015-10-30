@@ -10,8 +10,7 @@ namespace Emoticoner.Emoticons
     {
         public string text { get; set; }
         public int id  { get; set; }
-        // TODO: implement logic
-        public string[] tags { get; set; }
+        public List<string> tags { get; set; }
         public static Emoticon None = new Emoticon() { text = "NaN", id = -1 };
 
         public Size RenderSize(Font font)
