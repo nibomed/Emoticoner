@@ -17,6 +17,8 @@ namespace DataTool
         EmoticonDatabase emoticonDatabase;
         EmoticonLayer emoticonLayer;
         ColorScheme colorScheme;
+        bool newEmoticon = true;
+        int currentId = 0;
         public Form1()
         {
             InitializeComponent();
@@ -33,6 +35,7 @@ namespace DataTool
             };
             emoticonLayer.UpdateElement();
             tableLayoutPanel3.Controls.Add(emoticonLayer, 0, 3);
+            textBoxTags.ScrollBars = ScrollBars.Vertical;
         }
 
         private void buttonOpenClick(object sender, EventArgs e)
@@ -48,21 +51,17 @@ namespace DataTool
             {
                 MessageBox.Show(ex.Message);
             }
-            updateComboBox();
+            setupComboBox();
+            updateAll();
         }
 
-        private void updateComboBox()
+        private void setupComboBox()
         {
             List<Emoticon> emoList = emoticonDatabase.GetAll(p => p.id != -100);
             for (int i = 0; i < emoList.Count; i++)
             {
                 comboBoxEmoticon.Items.Add(emoList[i].text);
             }
-        }
-
-        private void updateIdInfo(int num)
-        {
-            LabelId.Text = "id:" + num.ToString();
         }
 
         private void buttonSaveClick(object sender, EventArgs e)
@@ -87,17 +86,26 @@ namespace DataTool
 
         private void addEmoticon()
         {
-            if (comboBoxEmoticon.Text != "")
+            String text = comboBoxEmoticon.Text;
+            if (text != "")
             {
-                if (emoticonDatabase.Add(new Emoticon() { text = comboBoxEmoticon.Text }))
+                Emoticon emo = new Emoticon() {
+                    text = text,
+                    id = currentId,
+                    tags = textBoxTags.Lines.ToList()
+                };
+                emoticonDatabase.Merge(emo);
+
+                if (!newEmoticon)
                 {
-                    labelInfo.Text = comboBoxEmoticon.Text + " succesfull added to DB";
-                    comboBoxEmoticon.Text = "";
+                    labelInfo.Text = comboBoxEmoticon.Text + " merged to DB";
                 }
                 else
                 {
-                    labelInfo.Text = comboBoxEmoticon.Text + " FAIL to add, already exist in database";
+                    labelInfo.Text = comboBoxEmoticon.Text + " added to DB";
+                    comboBoxEmoticon.Items.Add(comboBoxEmoticon.Text);
                 }
+                comboBoxEmoticon.Text = "";
             }
             else
             {
@@ -107,22 +115,53 @@ namespace DataTool
 
         private void layerEmoticonTextChangedHandler(object sender, EventArgs e)
         {
+            updateAll();
+        }
+
+        private void updateAll()
+        {
+            int oldId = currentId;
             updateExample();
             updateId();
+            if (currentId != oldId)
+            {
+                updateTags();
+            }
+        }
 
+        private void updateTags()
+        {
+            textBoxTags.Text = "";
+            if (newEmoticon)
+            {
+                return;
+            }
+            Emoticon emo = emoticonDatabase.GetByText(comboBoxEmoticon.Text);
+            if (emo.tags != null)
+            {
+                for (int i = 0; i < emo.tags.Count; i++)
+                {
+                    textBoxTags.Text += emo.tags[i] + "\r\n";
+                }
+            }
         }
 
         private void updateId()
         {
             Emoticon emo = emoticonDatabase.GetByText(comboBoxEmoticon.Text);
+            LabelId.Text = "id: ";
             if (emo == Emoticon.None)
             {
-                LabelId.Text = "id: " + emoticonDatabase.GetEmptyIndex().ToString() + " (new)";
+                currentId = emoticonDatabase.GetEmptyIndex();
+                LabelId.Text += "[new] ";
+                newEmoticon = true;
             }
             else
             {
-                LabelId.Text = "id: " + emo.id.ToString();
+                currentId = emo.id;
+                newEmoticon = false;
             }
+            LabelId.Text += currentId.ToString();
         }
 
         private void updateExample()
@@ -137,6 +176,19 @@ namespace DataTool
             if (e.KeyChar == (char)Keys.Enter)
             {
                 addEmoticon();
+            }
+        }
+
+        /* Default shortcut hooks */
+        private void textBoxTagsKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Control & e.KeyCode == Keys.A)
+            {
+                textBoxTags.SelectAll();
+            }
+            else if (e.Control & e.KeyCode == Keys.Back)
+            {
+                SendKeys.SendWait("^+{LEFT}{BACKSPACE}");
             }
         }
     }
