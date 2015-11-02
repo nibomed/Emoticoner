@@ -107,7 +107,6 @@ namespace Emoticoner.Emoticons
             if (emo.tags != null)
             {
                 inDatabase.tags.Concat(emo.tags);
-                //inDatabase.tags = inDatabase.tags.Concat(emo.tags).Distinct().ToList();
                 inDatabase.tags = inDatabase.tags.Distinct().ToList();
             }
         }
