@@ -18,7 +18,10 @@ namespace Emoticoner
 
         private ShortcutHook shortCutHook = new ShortcutHook();
         private EmoticonDatabase emoticonDatabase;
-        private EmoticonLayer emoticonLayer;
+        private TabControl tabControl;
+
+        // Maybe move it
+        public const AnchorStyles anchorFull = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left);
 
         /* Black magic hook. Fix flickering when untray (not work for first time) */
         /* http://stackoverflow.com/questions/2612487/how-to-fix-the-flickering-in-user-controls */
@@ -87,31 +90,59 @@ namespace Emoticoner
             emoticonDatabase = new EmoticonDatabase();
             emoticonDatabase.Load("Emoticons.xml");
 
+            /* Init tableLayoutPanelRoot */
+            tableLayoutPanelRoot.Width = ClientSize.Width;
+            tableLayoutPanelRoot.Height = ClientSize.Height;
+            tableLayoutPanelRoot.BackColor = colorScheme.color2;
+            formMoveHook.SetupHandlers(tableLayoutPanelRoot);
+
+            /* Init tabControl */
+            tabControl = new TabControl()
+            {
+                Location = new Point(0, 0),
+                Anchor = anchorFull
+            };
+            formMoveHook.SetupHandlers(tabControl);
+            tableLayoutPanelRoot.Controls.Add(tabControl, 0, 0);
+
+            /* Init tabs */
+            addEmoticonTab("All", f => f.id > 0);
+        }
+
+        private void addEmoticonTab(string title, Predicate<Emoticon> condition)
+        {
+            TabPage tabPage = new TabPage() {
+                Text = title,
+            };
+            tabControl.Controls.Add(tabPage);
+            formMoveHook.SetupHandlers(tabPage);
+            
             /* Init emoticonLayer */
-            emoticonLayer = new EmoticonLayer(this) {
+            EmoticonLayer emoticonLayer = new EmoticonLayer(this)
+            {
                 Width = ClientSize.Width,
                 Height = ClientSize.Height,
                 Location = new Point(0, 0),
                 MinimalWidth = 80,
                 MinimalHeight = 25,
                 Font = Font,
-                colorScheme = colorScheme
+                colorScheme = colorScheme,
             };
-            emoticonLayer.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left);
+            emoticonLayer.Anchor = anchorFull;
             emoticonLayer.MouseClick += mouseClickHandlerRightClickGoTray;
             formMoveHook.SetupHandlers(emoticonLayer);
-            emoticonLayer.AddEmoticons(emoticonDatabase.GetAll(e => e.id > 0));
-            emoticonLayer.UpdateElement();
+            emoticonLayer.AddEmoticons(emoticonDatabase.GetAll(condition));
 
             /* Scroll magic */
             emoticonLayer.HorizontalScroll.Maximum = 1;
-            emoticonLayer.VerticalScroll.Maximum = 0;
             emoticonLayer.HorizontalScroll.Visible = false;
             emoticonLayer.HorizontalScroll.Enabled = false;
+            emoticonLayer.VerticalScroll.Maximum = 0;
             emoticonLayer.VerticalScroll.Visible = false;
             emoticonLayer.AutoScroll = true;
 
-            Controls.Add(emoticonLayer);
+            emoticonLayer.UpdateElement();
+            tabPage.Controls.Add(emoticonLayer);
         }
 
         private void InitializeForm()
