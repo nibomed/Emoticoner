@@ -49,6 +49,12 @@ namespace Emoticoner
             notifyIcon1.BalloonTipTitle = "App is runing";
             notifyIcon1.BalloonTipText = "Use alt+e";
             notifyIcon1.ShowBalloonTip(2000);
+
+            for (int i = 0; i < tabControl.TabCount; i++)
+            {
+                EmoticonLayer emoticonLayer = tabControl.TabPages[i].Controls[0] as EmoticonLayer;
+                emoticonLayer.Start();
+            }
         }
 
         public void toTray()
@@ -141,7 +147,6 @@ namespace Emoticoner
             emoticonLayer.VerticalScroll.Visible = false;
             emoticonLayer.AutoScroll = true;
 
-            emoticonLayer.UpdateElement();
             tabPage.Controls.Add(emoticonLayer);
         }
 

@@ -19,6 +19,7 @@ namespace Emoticoner.Emoticons
         public int MinimalHeight = 25;
         public int Border = 2;
 
+        private bool started = false;
         private int currentEmoticonBaseWidth = 0;
         private int currentWidth = 0;
         private int currentHeight = 0;
@@ -138,12 +139,21 @@ namespace Emoticoner.Emoticons
             }
         }
 
+        public void Start()
+        {
+            started = true;
+            UpdateElement();
+        }
+
         public void UpdateElement()
         {
-            calculateSizes();
-            clearTableLayout();
-            setColumStyles();
-            placeEmoticons(false);
+            if (started)
+            {
+                calculateSizes();
+                clearTableLayout();
+                setColumStyles();
+                placeEmoticons(false);
+            }
         }
 
         private void placeEmoticons(bool v)
