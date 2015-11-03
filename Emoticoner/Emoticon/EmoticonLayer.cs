@@ -47,9 +47,9 @@ namespace Emoticoner.Emoticons
         {
             if (Visible == true && needResize())
             {
-                UpdateElement();
                 currentHeight = ClientSize.Height;
                 currentWidth = ClientSize.Width;
+                UpdateElement();
             }
         }
 
