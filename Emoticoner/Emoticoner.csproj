@@ -86,11 +86,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Hooks\StringSender.cs" />
-    <Compile Include="Tool\Form1.cs">
+    <Compile Include="Tool\EmoticonManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tool\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Tool\EmoticonManager.Designer.cs">
+      <DependentUpon>EmoticonManager.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -105,6 +105,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Tool\EmoticonManager.resx">
+      <DependentUpon>EmoticonManager.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

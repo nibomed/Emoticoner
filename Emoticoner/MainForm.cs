@@ -1,6 +1,7 @@
 ﻿using Emoticoner.Emoticons;
 using Emoticoner.Helpers;
 using Emoticoner.Hooks;
+using Emoticoner.Tool;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -20,6 +21,7 @@ namespace Emoticoner
         private EmoticonDatabase emoticonDatabase;
         private TabControl tabControl;
         private ContextMenu contextMenu = new ContextMenu();
+        private EmoticonManager emoticonManager = new EmoticonManager();
 
         // Maybe move it
         public const AnchorStyles anchorFull = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left);
@@ -122,9 +124,37 @@ namespace Emoticoner
         private void InitializeContestMenu()
         {
             contextMenu.MenuItems.Add(new MenuItem() { Text = "Emoticon manager" });
+            contextMenu.MenuItems[contextMenu.MenuItems.Count - 1].Click += menuItemClickEmoticonManagerHandler;
+
             contextMenu.MenuItems.Add(new MenuItem() { Text = "Settings" });
+            contextMenu.MenuItems[contextMenu.MenuItems.Count - 1].Click += menuItemClickSettingsHandler;
+
             contextMenu.MenuItems.Add(new MenuItem() { Text = "About" });
+            contextMenu.MenuItems[contextMenu.MenuItems.Count - 1].Click += menuItemClickAboutHandler;
+
             contextMenu.MenuItems.Add(new MenuItem() { Text = "Exit" });
+            contextMenu.MenuItems[contextMenu.MenuItems.Count - 1].Click += menuItemClickExitHandler;
+
+        }
+
+        private void menuItemClickExitHandler(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void menuItemClickAboutHandler(object sender, EventArgs e)
+        {
+            MessageBox.Show("Visit https://github.com/nibomed/Emoticoner for more info");
+        }
+
+        private void menuItemClickSettingsHandler(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void menuItemClickEmoticonManagerHandler(object sender, EventArgs e)
+        {
+            emoticonManager.Visible = true;
         }
 
         private void addEmoticonTab(string title, Predicate<Emoticon> condition)
