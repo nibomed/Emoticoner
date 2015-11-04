@@ -32,9 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tableLayoutPanelRoot = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonMenu = new System.Windows.Forms.Button();
             this.tableLayoutPanelRoot.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -64,18 +63,6 @@
             this.tableLayoutPanelRoot.Size = new System.Drawing.Size(467, 515);
             this.tableLayoutPanelRoot.TabIndex = 0;
             // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(334, 22);
-            this.textBox1.TabIndex = 0;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -91,22 +78,27 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(414, 22);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(461, 22);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // imageList1
+            // textBox1
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "ok.bmp");
-            this.imageList1.Images.SetKeyName(1, "ok_active.bmp");
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(0, 0);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(401, 22);
+            this.textBox1.TabIndex = 0;
             // 
             // buttonMenu
             // 
-            this.buttonMenu.Location = new System.Drawing.Point(350, 3);
+            this.buttonMenu.Location = new System.Drawing.Point(404, 0);
             this.buttonMenu.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.buttonMenu.Name = "buttonMenu";
-            this.buttonMenu.Size = new System.Drawing.Size(75, 23);
+            this.buttonMenu.Size = new System.Drawing.Size(57, 22);
             this.buttonMenu.TabIndex = 1;
             this.buttonMenu.Text = "Menu";
             this.buttonMenu.UseVisualStyleBackColor = true;
@@ -136,7 +128,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelRoot;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button buttonMenu;
     }
 }
