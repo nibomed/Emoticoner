@@ -19,6 +19,7 @@ namespace Emoticoner
         private ShortcutHook shortCutHook = new ShortcutHook();
         private EmoticonDatabase emoticonDatabase;
         private TabControl tabControl;
+        private ContextMenu contextMenu = new ContextMenu();
 
         // Maybe move it
         public const AnchorStyles anchorFull = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left);
@@ -113,6 +114,17 @@ namespace Emoticoner
 
             /* Init tabs */
             addEmoticonTab("All", f => f.id > 0);
+
+            /* Init contextMenu */
+            InitializeContestMenu();
+        }
+
+        private void InitializeContestMenu()
+        {
+            contextMenu.MenuItems.Add(new MenuItem() { Text = "Emoticon manager" });
+            contextMenu.MenuItems.Add(new MenuItem() { Text = "Settings" });
+            contextMenu.MenuItems.Add(new MenuItem() { Text = "About" });
+            contextMenu.MenuItems.Add(new MenuItem() { Text = "Exit" });
         }
 
         private void addEmoticonTab(string title, Predicate<Emoticon> condition)
@@ -133,6 +145,7 @@ namespace Emoticoner
                 MinimalHeight = 25,
                 Font = Font,
                 colorScheme = colorScheme,
+                Margin = new Padding(3,3,3,50)
             };
             emoticonLayer.Anchor = anchorFull;
             emoticonLayer.MouseClick += mouseClickHandlerRightClickGoTray;
@@ -201,6 +214,11 @@ namespace Emoticoner
             {
                 toTray();
             }
+        }
+
+        private void buttonMenuClick(object sender, EventArgs e)
+        {
+            contextMenu.Show(buttonMenu, new Point(0, 0));
         }
     }
 }
