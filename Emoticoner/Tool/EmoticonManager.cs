@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Emoticoner.Emoticons;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,10 +13,22 @@ namespace Emoticoner.Tool
 {
     public partial class EmoticonManager : Form
     {
+        public EmoticonDatabase database { set; get; }
+
+        private List<string> tags = new List<string>();
+
         public EmoticonManager()
         {
             InitializeComponent();
             TopMost = true;
+            setupTags();
+        }
+
+        
+
+        private void setupTags()
+        {
+            tags = database.GetTags();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

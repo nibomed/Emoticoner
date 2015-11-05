@@ -10,30 +10,47 @@ namespace Emoticoner.Emoticons
     public class EmoticonDatabase
     {
         // TODO optimize all parts
-        private List<Emoticon> data = new List<Emoticon>();
+        private List<Emoticon> emoticons = new List<Emoticon>();
+        private List<Tag> tags = new List<Tag>();
         public void Load(string file)
         {
             try
             {
-                data = Serializer.DeSerializeObject<List<Emoticon>>(file);
+                emoticons = Serializer.DeSerializeObject<List<Emoticon>>(file);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\nFalls to empty set of data (T_T)");
-                data = new List<Emoticon>();
+                emoticons = new List<Emoticon>();
             }
+        }
+
+        public List<string> GetTags()
+        {
+            List<string> tags = new List<string>();
+            foreach (Emoticon emoticon in emoticons)
+            {
+                foreach (string tag in emoticon.tags)
+                {
+                    if (tags.FindIndex(s => s == tag) < 0)
+                    {
+                        tags.Add(tag);
+                    }
+                }
+            }
+            return tags;
         }
 
         public void Save(string file)
         {
             try
             {
-                Serializer.SerializeObject(data, file);
+                Serializer.SerializeObject(emoticons, file);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\nFalls to empty set of data");
-                data = new List<Emoticon>();
+                emoticons = new List<Emoticon>();
             }
         }
 
@@ -41,7 +58,7 @@ namespace Emoticoner.Emoticons
         {
             if (Have(f => f.id == id))
             {
-                return data.Find(f => f.id == id);
+                return emoticons.Find(f => f.id == id);
             }
 
             return Emoticon.None;
@@ -49,14 +66,14 @@ namespace Emoticoner.Emoticons
 
         public List<Emoticon> GetAll(Predicate<Emoticon> p)
         {
-            return data.FindAll(p);
+            return emoticons.FindAll(p);
         }
 
         public Emoticon GetByText(string text)
         {
             if (Have(f => f.text == text))
             {
-                return data.Find(f => f.text == text);
+                return emoticons.Find(f => f.text == text);
             }
 
             return Emoticon.None;
@@ -64,7 +81,7 @@ namespace Emoticoner.Emoticons
 
         public int Length()
         {
-            return data.Count;
+            return emoticons.Count;
         }
 
         public int GetEmptyIndex()
@@ -84,7 +101,7 @@ namespace Emoticoner.Emoticons
             inDatabase = GetByText(emo.text);
             if (inDatabase == Emoticon.None)
             {
-                data.Add(emo);
+                emoticons.Add(emo);
                 return true;
             }
 
@@ -113,7 +130,7 @@ namespace Emoticoner.Emoticons
 
         public bool Have(Predicate<Emoticon> p)
         {
-            return (data.FindIndex(p) > -1);
+            return (emoticons.FindIndex(p) > -1);
         }
     }
 }

@@ -99,6 +99,8 @@ namespace Emoticoner
             emoticonDatabase = new EmoticonDatabase();
             emoticonDatabase.Load("Emoticons.xml");
 
+            emoticonManager.database = emoticonDatabase;
+
             /* Init tableLayoutPanelRoot */
             tableLayoutPanelRoot.Width = ClientSize.Width;
             tableLayoutPanelRoot.Height = ClientSize.Height;

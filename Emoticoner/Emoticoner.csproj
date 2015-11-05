@@ -62,11 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algo\Placer.cs" />
-    <Compile Include="Emoticon\Emoticon.cs" />
-    <Compile Include="Emoticon\EmoticonDatabase.cs" />
-    <Compile Include="Emoticon\EmoticonLayer.cs">
+    <Compile Include="Emoticons\Emoticon.cs" />
+    <Compile Include="Emoticons\EmoticonDatabase.cs" />
+    <Compile Include="Emoticons\EmoticonLayer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Emoticons\Tag.cs" />
     <Compile Include="Helpers\ColorScheme.cs" />
     <Compile Include="Helpers\Pair.cs" />
     <Compile Include="Helpers\Serializer.cs" />
