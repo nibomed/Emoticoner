@@ -92,7 +92,7 @@ namespace DataTool
                 Emoticon emo = new Emoticon() {
                     text = text,
                     id = currentId,
-                    tags = textBoxTags.Lines.ToList()
+               //     tags = textBoxTags.Lines.ToList()
                 };
                 emoticonDatabase.Merge(emo);
 
