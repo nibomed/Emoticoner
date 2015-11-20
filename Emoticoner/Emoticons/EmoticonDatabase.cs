@@ -27,30 +27,26 @@ namespace Emoticoner.Emoticons
 
     public class EmoticonDatabase
     {
-        List<Action<ChangeEmoticonEventArgs>> changeEmoticonEventHandlers = new List<Action<ChangeEmoticonEventArgs>>();
-        List<Action<DeleteEmoticonEventArgs>> deleteEmoticonEventHandlers = new List<Action<DeleteEmoticonEventArgs>>();
-        List<Action<AddEmoticonEventArgs>> addEmoticonEventHandlers = new List<Action<AddEmoticonEventArgs>>();
-
-        List<Pair<object, Action<object, ChangeEmoticonEventArgs>>> changeEmoticonEventHandlers2 = new List<Pair<object, Action<object, ChangeEmoticonEventArgs>>>();
-        List<Pair<object, Action<object, DeleteEmoticonEventArgs>>> deleteEmoticonEventHandlers2 = new List<Pair<object, Action<object, DeleteEmoticonEventArgs>>>();
-        List<Pair<object, Action<object, AddEmoticonEventArgs>>> addEmoticonEventHandlers2 = new List<Pair<object, Action<object, AddEmoticonEventArgs>>>();
+        List<Pair<object, Action<object, ChangeEmoticonEventArgs>>> changeEmoticonEventHandlers = new List<Pair<object, Action<object, ChangeEmoticonEventArgs>>>();
+        List<Pair<object, Action<object, DeleteEmoticonEventArgs>>> deleteEmoticonEventHandlers = new List<Pair<object, Action<object, DeleteEmoticonEventArgs>>>();
+        List<Pair<object, Action<object, AddEmoticonEventArgs>>> addEmoticonEventHandlers = new List<Pair<object, Action<object, AddEmoticonEventArgs>>>();
 
         internal void Subscribe(object sender, Action<object, ChangeEmoticonEventArgs> emoticonChangedHandler2)
         {
-            changeEmoticonEventHandlers2.Add(new Pair<object, Action<object, ChangeEmoticonEventArgs>>(sender, emoticonChangedHandler2));
+            changeEmoticonEventHandlers.Add(new Pair<object, Action<object, ChangeEmoticonEventArgs>>(sender, emoticonChangedHandler2));
         }
         internal void Subscribe(object sender, Action<object, DeleteEmoticonEventArgs> emoticonDeleteHandler2)
         {
-            deleteEmoticonEventHandlers2.Add(new Pair<object, Action<object, DeleteEmoticonEventArgs>>(sender, emoticonDeleteHandler2));
+            deleteEmoticonEventHandlers.Add(new Pair<object, Action<object, DeleteEmoticonEventArgs>>(sender, emoticonDeleteHandler2));
         }
         internal void Subscribe(object sender, Action<object, AddEmoticonEventArgs> emoticonAddHandler2)
         {
-            addEmoticonEventHandlers2.Add(new Pair<object, Action<object, AddEmoticonEventArgs>>(sender, emoticonAddHandler2));
+            addEmoticonEventHandlers.Add(new Pair<object, Action<object, AddEmoticonEventArgs>>(sender, emoticonAddHandler2));
         }
 
         private void changeEmoticonEvent(Emoticon e)
         {
-            foreach (Pair<object, Action<object, ChangeEmoticonEventArgs>> pair in changeEmoticonEventHandlers2)
+            foreach (Pair<object, Action<object, ChangeEmoticonEventArgs>> pair in changeEmoticonEventHandlers)
             {
                 pair.second(pair.first, new ChangeEmoticonEventArgs() { Emoticon = e });
             }
@@ -58,7 +54,7 @@ namespace Emoticoner.Emoticons
 
         private void deleteEmoticonEvent(Emoticon e)
         {
-            foreach (Pair<object, Action<object, DeleteEmoticonEventArgs>> pair in deleteEmoticonEventHandlers2)
+            foreach (Pair<object, Action<object, DeleteEmoticonEventArgs>> pair in deleteEmoticonEventHandlers)
             {
                 pair.second(pair.first, new DeleteEmoticonEventArgs() { Emoticon = e });
             }
@@ -66,7 +62,7 @@ namespace Emoticoner.Emoticons
 
         private void addEmoticonEvent(Emoticon e)
         {
-            foreach (Pair<object, Action<object, AddEmoticonEventArgs>> pair in addEmoticonEventHandlers2)
+            foreach (Pair<object, Action<object, AddEmoticonEventArgs>> pair in addEmoticonEventHandlers)
             {
                 pair.second(pair.first, new AddEmoticonEventArgs() { Emoticon = e });
             }
