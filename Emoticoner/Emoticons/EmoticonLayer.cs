@@ -26,6 +26,8 @@ namespace Emoticoner.Emoticons
         private MainForm parentForm = null;
         public ColorScheme colorScheme = new ColorScheme();
 
+        public Predicate<Emoticon> Condition { get; internal set; }
+
         public EmoticonLayer(MainForm parrent)
         {
             parentForm = parrent;
@@ -41,7 +43,7 @@ namespace Emoticoner.Emoticons
         private void initElement()
         {
             Resize += new EventHandler(this.resizeHandler);
-            BackColor = colorScheme.color4;
+            BackColor = colorScheme.colorEmoticonLayerBG;
         }
 
         private void resizeHandler(object sender, EventArgs e)
@@ -130,6 +132,10 @@ namespace Emoticoner.Emoticons
                  AddEmoticon(e);
             }
         }
+        public void SetEmoticons(List<Emoticon> newEmoticons)
+        {
+            emoticons = newEmoticons;
+        }
 
         public void AddEmoticon(Emoticon newEmoticons)
         {
@@ -173,7 +179,7 @@ namespace Emoticoner.Emoticons
                     Text = emoticons[i].text,
                     ClientSize = new Size((currentEmoticonBaseWidth + Border) * tileWidth, MinimalHeight),
                     TextAlign = ContentAlignment.MiddleCenter,
-                    BackColor = colorScheme.color3,
+                    BackColor = colorScheme.colorUnselectedItem,
                     Font = Font,
                     Margin = new Padding(Border)
                 };
@@ -212,13 +218,13 @@ namespace Emoticoner.Emoticons
         private void mouseLeave(object sender, EventArgs e)
         {
             Label current = (Label)sender;
-            current.BackColor = colorScheme.color3;
+            current.BackColor = colorScheme.colorUnselectedItem;
         }
 
         private void mouseHover(object sender, EventArgs e)
         {
             Label current = (Label)sender;
-            current.BackColor = colorScheme.color2;
+            current.BackColor = colorScheme.colorSelectedItem;
         }
     }
 }

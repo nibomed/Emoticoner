@@ -10,7 +10,7 @@ namespace Emoticoner.Emoticons
     {
         public string text { get; set; }
         public int id  { get; set; }
-        public List<string> tags { get; set; }
+        public List<Tag> tags { get; set; }
         public static Emoticon None = new Emoticon() { text = "NaN", id = -1 };
 
         public Size RenderSize(Font font)
@@ -19,6 +19,12 @@ namespace Emoticoner.Emoticons
 
             return result;
         }
+
+        public Emoticon()
+        {
+            tags = new List<Tag>();
+        }
+
         public int TileWidth(Font font, int width)
         {
             int renderWidth = TextRenderer.MeasureText(text, font).Width;
@@ -29,6 +35,15 @@ namespace Emoticoner.Emoticons
             }
 
             return tileWidth;
+        }
+        
+        internal bool HaveTag(Tag tag)
+        {
+            if (tags.FindIndex(t => t.Text == tag.Text) >= 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

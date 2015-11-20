@@ -7,45 +7,195 @@ using System.Windows.Forms;
 
 namespace Emoticoner.Emoticons
 {
+    public class EmoticonEventArgs : EventArgs
+    {
+        public EmoticonEventArgs(Emoticon emoticon)
+        {
+            Emoticon = emoticon;
+        }
+
+        public EmoticonEventArgs()
+        {
+            Emoticon = Emoticon.None;
+        }
+
+        public Emoticon Emoticon { get; set; }
+    }
+    public class ChangeEmoticonEventArgs : EmoticonEventArgs { }
+    public class DeleteEmoticonEventArgs : EmoticonEventArgs { }
+    public class AddEmoticonEventArgs : EmoticonEventArgs { }
+
     public class EmoticonDatabase
     {
+        List<Action<ChangeEmoticonEventArgs>> changeEmoticonEventHandlers = new List<Action<ChangeEmoticonEventArgs>>();
+        List<Action<DeleteEmoticonEventArgs>> deleteEmoticonEventHandlers = new List<Action<DeleteEmoticonEventArgs>>();
+        List<Action<AddEmoticonEventArgs>> addEmoticonEventHandlers = new List<Action<AddEmoticonEventArgs>>();
+
+        List<Pair<object, Action<object, ChangeEmoticonEventArgs>>> changeEmoticonEventHandlers2 = new List<Pair<object, Action<object, ChangeEmoticonEventArgs>>>();
+        List<Pair<object, Action<object, DeleteEmoticonEventArgs>>> deleteEmoticonEventHandlers2 = new List<Pair<object, Action<object, DeleteEmoticonEventArgs>>>();
+        List<Pair<object, Action<object, AddEmoticonEventArgs>>> addEmoticonEventHandlers2 = new List<Pair<object, Action<object, AddEmoticonEventArgs>>>();
+
+        internal void Subscribe(object sender, Action<object, ChangeEmoticonEventArgs> emoticonChangedHandler2)
+        {
+            changeEmoticonEventHandlers2.Add(new Pair<object, Action<object, ChangeEmoticonEventArgs>>(sender, emoticonChangedHandler2));
+        }
+        internal void Subscribe(object sender, Action<object, DeleteEmoticonEventArgs> emoticonDeleteHandler2)
+        {
+            deleteEmoticonEventHandlers2.Add(new Pair<object, Action<object, DeleteEmoticonEventArgs>>(sender, emoticonDeleteHandler2));
+        }
+        internal void Subscribe(object sender, Action<object, AddEmoticonEventArgs> emoticonAddHandler2)
+        {
+            addEmoticonEventHandlers2.Add(new Pair<object, Action<object, AddEmoticonEventArgs>>(sender, emoticonAddHandler2));
+        }
+
+        private void changeEmoticonEvent(Emoticon e)
+        {
+            foreach (Pair<object, Action<object, ChangeEmoticonEventArgs>> pair in changeEmoticonEventHandlers2)
+            {
+                pair.second(pair.first, new ChangeEmoticonEventArgs() { Emoticon = e });
+            }
+        }
+
+        private void deleteEmoticonEvent(Emoticon e)
+        {
+            foreach (Pair<object, Action<object, DeleteEmoticonEventArgs>> pair in deleteEmoticonEventHandlers2)
+            {
+                pair.second(pair.first, new DeleteEmoticonEventArgs() { Emoticon = e });
+            }
+        }
+
+        private void addEmoticonEvent(Emoticon e)
+        {
+            foreach (Pair<object, Action<object, AddEmoticonEventArgs>> pair in addEmoticonEventHandlers2)
+            {
+                pair.second(pair.first, new AddEmoticonEventArgs() { Emoticon = e });
+            }
+        }
+
+        public class EmoticonFileItem
+        {
+            public string text;
+            public List<string> tags;
+            public EmoticonFileItem(Emoticon emo)
+            {
+                text = emo.text;
+                tags = new List<string>();
+                foreach (Tag t in emo.tags)
+                {
+                    tags.Add(t.Text);
+                }
+            }
+            public EmoticonFileItem()
+            {
+            }
+        };
+             
         // TODO optimize all parts
-        private List<Emoticon> emoticons = new List<Emoticon>();
-        private List<Tag> tags = new List<Tag>();
+        public List<Emoticon> emoticons { get; private set; }
+        public List<Tag> tags { get; private set; }
         public void Load(string file)
         {
+            emoticons = new List<Emoticon>();
+            tags = new List<Tag>();
+            List<EmoticonFileItem> fromFile = new List<EmoticonFileItem>();
+
             try
             {
-                emoticons = Serializer.DeSerializeObject<List<Emoticon>>(file);
+                fromFile = Serializer.DeSerializeObject<List<EmoticonFileItem>>(file);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\nFalls to empty set of data (T_T)");
                 emoticons = new List<Emoticon>();
+                return;
+            }
+
+            int _id = 0;
+            foreach (EmoticonFileItem efi in fromFile)
+            {
+                Emoticon emo = new Emoticon()
+                {
+                    text = efi.text,
+                    id = _id++
+                };
+                foreach (string stag in efi.tags)
+                {
+                    AddTag(stag);
+                    Tag tag = GetTag(stag);
+                    tag.Ref();
+                    emo.tags.Add(tag);
+                }
+                emoticons.Add(emo);
             }
         }
 
-        public List<string> GetTags()
+        private Tag GetTag(string text)
         {
-            List<string> tags = new List<string>();
+            int i = tags.FindIndex(t => t.Text == text);
+            if (i > -1)
+            {
+                return tags[i];
+            }
+            throw new Exception("No such tag");
+        }
+
+        private void AddTag(string text)
+        {
+            if (tags.FindIndex(t => t.Text == text) < 0)
+            {
+                tags.Add(new Tag() { Text = text });
+            }
+        }
+
+        internal void ForceDelete(string text)
+        {
+            List<Emoticon> emo = emoticons.FindAll(e => e.text == text);
+            foreach (Emoticon e in emo)
+            {
+                Delete(e);
+            }
+        }
+
+        private void Delete(Emoticon e)
+        {
+            // generate event here
+            emoticons.Remove(e);
+            deleteEmoticonEvent(e);
+        }
+
+        private void generateEvent(string v, Emoticon e)
+        {
+            foreach (Action<EmoticonEventArgs> handler in changeEmoticonEventHandlers)
+            {
+                handler(new EmoticonEventArgs());
+            }
+        }
+
+        private void updateTags()
+        {
             foreach (Emoticon emoticon in emoticons)
             {
-                foreach (string tag in emoticon.tags)
+                foreach (Tag tag in emoticon.tags)
                 {
-                    if (tags.FindIndex(s => s == tag) < 0)
+                    if (tags.FindIndex(s => s.Text == tag.Text) < 0)
                     {
                         tags.Add(tag);
                     }
+                    tag.Ref();
                 }
             }
-            return tags;
         }
 
         public void Save(string file)
         {
+            List<EmoticonFileItem> toFile = new List<EmoticonFileItem>();
+            foreach (Emoticon emo in emoticons)
+            {
+                toFile.Add(new EmoticonFileItem(emo));
+            } 
             try
             {
-                Serializer.SerializeObject(emoticons, file);
+                Serializer.SerializeObject(toFile, file);
             }
             catch (Exception ex)
             {
@@ -54,29 +204,27 @@ namespace Emoticoner.Emoticons
             }
         }
 
-        public Emoticon GetById(int id)
+        public Emoticon GetEmoticon(Predicate<Emoticon> p)
         {
-            if (Have(f => f.id == id))
-            {
-                return emoticons.Find(f => f.id == id);
-            }
 
-            return Emoticon.None;
+            List<Emoticon> t = emoticons.FindAll(p);
+            if (t.Count > 1)
+            {
+                throw (new Exception("Corrutped Database, more that one emoticon with same unique propertie in DB"));
+            }
+            else if (t.Count < 1)
+            {
+                return Emoticon.None;
+            }
+            else
+            {
+                return t[0];
+            }
         }
 
         public List<Emoticon> GetAll(Predicate<Emoticon> p)
         {
             return emoticons.FindAll(p);
-        }
-
-        public Emoticon GetByText(string text)
-        {
-            if (Have(f => f.text == text))
-            {
-                return emoticons.Find(f => f.text == text);
-            }
-
-            return Emoticon.None;
         }
 
         public int Length()
@@ -86,26 +234,30 @@ namespace Emoticoner.Emoticons
 
         public int GetEmptyIndex()
         {
-            int res = 0;
-            while (GetById(res) != Emoticon.None)
+            int res = 1;
+            while (GetEmoticon(e => e.id == res) != Emoticon.None)
             {
                 res++;
             }
-
             return res;
         }
 
         public bool Add(Emoticon emo)
         {
-            Emoticon inDatabase;
-            inDatabase = GetByText(emo.text);
-            if (inDatabase == Emoticon.None)
+            if (ContainsEmoticon(e => e.text == emo.text))
             {
-                emoticons.Add(emo);
-                return true;
+                return false;
             }
-
-            return false;
+            
+            Emoticon toAdd = new Emoticon()
+            {
+                text = emo.text,
+                id = GetEmptyIndex(),
+                tags = emo.tags
+            };
+            emoticons.Add(toAdd);
+            addEmoticonEvent( toAdd);
+            return true;
         }
 
         public void Merge(Emoticon emo)
@@ -115,7 +267,7 @@ namespace Emoticoner.Emoticons
                 return;
             }
             Emoticon inDatabase;
-            inDatabase = GetByText(emo.text);
+            inDatabase = GetEmoticon(e => e.text == emo.text);
             if (inDatabase == Emoticon.None)
             {
                 throw new Exception("EmoticonDatabase say 'You can't be here'");
@@ -124,11 +276,22 @@ namespace Emoticoner.Emoticons
             if (emo.tags != null)
             {
                 inDatabase.tags.Concat(emo.tags);
-                inDatabase.tags = inDatabase.tags.Distinct().ToList();
             }
         }
 
-        public bool Have(Predicate<Emoticon> p)
+        public void ForceAdd(Emoticon emo)
+        {
+            if (Add(emo))
+            {
+                return;
+            }
+
+            Emoticon inDatabase = GetEmoticon(e => e.text == emo.text);
+            inDatabase.tags = emo.tags;
+            changeEmoticonEvent(inDatabase);
+        }
+
+        public bool ContainsEmoticon(Predicate<Emoticon> p)
         {
             return (emoticons.FindIndex(p) > -1);
         }

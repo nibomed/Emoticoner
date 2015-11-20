@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
+using Emoticoner.Helpers;
 
 namespace Emoticoner.Tool
 {
@@ -15,20 +17,148 @@ namespace Emoticoner.Tool
     {
         public EmoticonDatabase database { set; get; }
 
-        private List<string> tags = new List<string>();
+        public List<Tag> Tags { set; get; }
+        private List<bool> selected;
+
+        private Color backColorTags = Color.White;
+        private Color selectedTags = Color.Aqua;
+        private Color unselectedTags = Color.White;
+
+        private ColorScheme colorScheme = new ColorScheme();
+
+        private int id;
+        private int prev_id;
+        private EmoticonLayer historyEmoticonLayer;
+        private EmoticonLayer previewEmoticonLayer;
 
         public EmoticonManager()
         {
             InitializeComponent();
             TopMost = true;
+
+            listViewTags.MouseClick += listViewTagsMouseClickEventHandler;
+            listViewTags.GotFocus += listViewTagsGotFocusHandler;
+
+            BackColor = colorScheme.colorMainBG;
+            tableLayoutPanelTags.BackColor = colorScheme.colorSectionBG;
+            tableLayoutPanelDown.BackColor = colorScheme.colorSectionBG;
+            tableLayoutPanelRoot.BackColor = colorScheme.colorMainBG;
+            tableLayoutPanelLeftUp.BackColor = colorScheme.colorSectionBG;
+            tableLayoutPanelLeftCenter.BackColor = colorScheme.colorSectionBG;
+            tableLayoutPanelLeftBottom.BackColor = colorScheme.colorSectionBG;
+
+            selectedTags = colorScheme.colorSelectedItem;
+            unselectedTags = colorScheme.colorEmoticonLayerBG;
+            listViewTags.BackColor = colorScheme.colorEmoticonLayerBG;
+
+            buttonAddTag.BackColor = colorScheme.colorButton;
+            buttonApply.BackColor = colorScheme.colorButton;
+            buttonDeleteTag.BackColor = colorScheme.colorButton;
+            buttonDeleteEmoticon.BackColor = colorScheme.colorWarning;
+            id = prev_id = 0;
+        }
+
+        private void listViewTagsGotFocusHandler(object sender, EventArgs e)
+        {
+            textBox1.Focus();
+        }
+
+        public void Init()
+        {
+            historyEmoticonLayer = new EmoticonLayer()
+            {
+                Anchor = MainForm.anchorFull,
+                colorScheme = colorScheme,
+                MinimalWidth = 80,
+                MinimalHeight = 25,
+                Font = MainForm.OurFont
+            };
+           // emoticonLayer.SetEmoticons(database.GetAll(e => e.id > 0));
+            tableLayoutPanelLeftCenter.Controls.Add(historyEmoticonLayer);
+
+            /* Scroll magic */
+            historyEmoticonLayer.HorizontalScroll.Maximum = 100;
+            historyEmoticonLayer.HorizontalScroll.Visible = false;
+            historyEmoticonLayer.HorizontalScroll.Enabled = false;
+            historyEmoticonLayer.VerticalScroll.Maximum = 0;
+            historyEmoticonLayer.VerticalScroll.Visible = false;
+            historyEmoticonLayer.AutoScroll = true;
+            database.Subscribe(historyEmoticonLayer, changeEmo);
+            database.Subscribe(historyEmoticonLayer, addEmo);
+            database.Subscribe(historyEmoticonLayer, deleteEmo);
+
+            historyEmoticonLayer.Start();
+
+            previewEmoticonLayer = new EmoticonLayer()
+            {
+                Anchor = MainForm.anchorFull,
+                colorScheme = colorScheme,
+                MinimalWidth = 80,
+                MinimalHeight = 25,
+                Font = MainForm.OurFont
+            };
+            tableLayoutPanelLeftBottom.Controls.Add(previewEmoticonLayer);
+
+            previewEmoticonLayer.Start();
+
             setupTags();
         }
 
-        
+        private void changeEmo(object sender, ChangeEmoticonEventArgs obj)
+        {
+            historyEmoticonLayer.AddEmoticon(obj.Emoticon);
+            historyEmoticonLayer.UpdateElement();
+        }
+        private void addEmo(object sender, AddEmoticonEventArgs obj)
+        {
+            historyEmoticonLayer.AddEmoticon(obj.Emoticon);
+            historyEmoticonLayer.UpdateElement();
+        }
+        private void deleteEmo(object sender, DeleteEmoticonEventArgs obj)
+        {
+            historyEmoticonLayer.AddEmoticon(obj.Emoticon);
+            historyEmoticonLayer.UpdateElement();
+        }
 
         private void setupTags()
         {
-            tags = database.GetTags();
+            Tags = database.tags;
+            Tags.OrderByDescending(t => t.References);
+            selected = new List<bool>();
+            foreach (Tag tag in Tags)
+            {
+                registerTag(tag);
+            }
+        }
+
+        private void registerTag(Tag tag)
+        {
+            string sufix = "                                     ";
+            listViewTags.Items.Add(tag.Text + sufix);
+            selected.Add(false);
+        }
+
+        private void listViewTagsMouseClickEventHandler(object sender, MouseEventArgs e)
+        {
+            pickItems();
+        }
+
+        private void pickItems()
+        {
+            var idx = listViewTags.SelectedIndices;
+            foreach (int i in idx)
+            {
+                selected[i] = !selected[i];
+                if (selected[i])
+                {
+                    listViewTags.Items[i].BackColor = selectedTags;
+                }
+                else
+                {
+                    listViewTags.Items[i].BackColor = unselectedTags;
+                }
+            }
+            textBox1.Focus();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -42,5 +172,84 @@ namespace Emoticoner.Tool
             }
         }
 
+        private void buttonAddTag_Click(object sender, EventArgs e)
+        {
+            // TODO: remove Basic, style window
+            string input = Interaction.InputBox("Input Tag name", "New Tag");
+            if (Tags.FindIndex(t => t.Text == input) > -1)
+            {
+                MessageBox.Show("Tag " + input + " already exist");
+                return;
+            }
+            Tag toAdd = new Tag() { Text = input };
+            Tags.Add(toAdd);
+            registerTag(toAdd);
+        }
+
+        private void buttonDeleteTag_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Don't work now...");
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string text = textBox1.Text;
+            Emoticon emoticon = database.GetEmoticon(f => f.text == text);
+            id = emoticon.id;
+            if (emoticon != Emoticon.None || prev_id != id)
+            {
+                for (int i = 0; i < Tags.Count; i++)
+                {
+                    if (emoticon.HaveTag(Tags[i]))
+                    {
+                        listViewTags.Items[i].BackColor = selectedTags;
+                    }
+                    else
+                    {
+                        listViewTags.Items[i].BackColor = unselectedTags;
+                    }
+                }
+            }
+            prev_id = id;
+
+            List<Emoticon> tmp = new List<Emoticon>() { };
+            tmp.Add(new Emoticon() { text = textBox1.Text });
+            previewEmoticonLayer.SetEmoticons(tmp);
+            previewEmoticonLayer.UpdateElement();
+        }
+
+        private void buttonApply_Click(object sender, EventArgs e)
+        {
+            Emoticon toAdd = new Emoticon()
+            {
+                text = textBox1.Text,
+                id = database.GetEmptyIndex()
+            };
+
+            for (int i = 0; i < Tags.Count; i++)
+            {
+                if (selected[i])
+                {
+                    toAdd.tags.Add(Tags[i]);
+                }
+            }
+
+            database.ForceAdd(toAdd);
+            database.Save("Emoticons.xml");
+            prev_id = -1;
+            textBox1.Text = "";
+        }
+
+        private void buttonDeleteEmoticon_Click(object sender, EventArgs e)
+        {
+            database.ForceDelete(textBox1.Text);
+            database.Save("Emoticons.xml");
+            textBox1.Text = "";
+        }
+
+        private void visibleChangeHandler(object sender, EventArgs e)
+        {
+            textBox1.Focus();
+        }
     }
 }

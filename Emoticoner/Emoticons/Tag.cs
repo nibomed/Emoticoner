@@ -9,7 +9,8 @@ namespace Emoticoner.Emoticons
     public class Tag
     {
         public string Text {get; set;}
-        public uint References { get; private set; }
+        public uint References { get; set; }
+        
 
         public void Ref()
         {

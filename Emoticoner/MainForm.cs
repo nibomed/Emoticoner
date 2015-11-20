@@ -3,6 +3,7 @@ using Emoticoner.Helpers;
 using Emoticoner.Hooks;
 using Emoticoner.Tool;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -22,6 +23,7 @@ namespace Emoticoner
         private TabControl tabControl;
         private ContextMenu contextMenu = new ContextMenu();
         private EmoticonManager emoticonManager = new EmoticonManager();
+        static public Font OurFont;
 
         // Maybe move it
         public const AnchorStyles anchorFull = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left);
@@ -44,6 +46,28 @@ namespace Emoticoner
             InitializeEventHandlers();
             InitializeComponentByHand();
             Start();
+        }
+
+
+        private void EmoticonChangedHandle(object sender, ChangeEmoticonEventArgs eventArgs)
+        {
+            updateAll(sender as EmoticonLayer);
+        }
+
+        private void EmoticonDeletedHandler(object sender, DeleteEmoticonEventArgs eventArgs)
+        {
+            updateAll(sender as EmoticonLayer);
+        }
+
+        public void EmoticonAddedHandler(object sender, AddEmoticonEventArgs eventArgs)
+        {
+            updateAll(sender as EmoticonLayer);
+        }
+
+        private void updateAll(EmoticonLayer emoticonLayer)
+        {
+            emoticonLayer.SetEmoticons(emoticonDatabase.GetAll(emoticonLayer.Condition));
+            emoticonLayer.UpdateElement();
         }
 
         private void Start()
@@ -90,34 +114,47 @@ namespace Emoticoner
 
         private void InitializeComponentByHand()
         {
-            InitializeForm();
-
             /* Init colorScheme */
             colorScheme = new ColorScheme();
+
+            InitializeForm();
 
             /* Init emoticonDatabase */
             emoticonDatabase = new EmoticonDatabase();
             emoticonDatabase.Load("Emoticons.xml");
 
+            /* Init EmoticonManager */
             emoticonManager.database = emoticonDatabase;
+            emoticonManager.Tags = emoticonDatabase.tags;
+            emoticonManager.Init();
 
             /* Init tableLayoutPanelRoot */
             tableLayoutPanelRoot.Width = ClientSize.Width;
             tableLayoutPanelRoot.Height = ClientSize.Height;
-            tableLayoutPanelRoot.BackColor = colorScheme.color2;
+            tableLayoutPanelRoot.BackColor = colorScheme.colorMainBG;
+            tableLayoutPanelUp.BackColor = colorScheme.colorSectionBG;
+            tableLayoutPanelDown.BackColor = colorScheme.colorSectionBG;
+
             formMoveHook.SetupHandlers(tableLayoutPanelRoot);
 
             /* Init tabControl */
             tabControl = new TabControl()
             {
                 Location = new Point(0, 0),
-                Anchor = anchorFull
+                Anchor = anchorFull,
             };
+            
             formMoveHook.SetupHandlers(tabControl);
-            tableLayoutPanelRoot.Controls.Add(tabControl, 0, 0);
+            tableLayoutPanelUp.Controls.Add(tabControl, 0, 0);
+            
 
             /* Init tabs */
             addEmoticonTab("All", f => f.id > 0);
+            foreach (Tag tag in emoticonDatabase.tags)
+            {
+                addEmoticonTab(tag.Text, f => f.HaveTag(tag));
+            }
+            addEmoticonTab("Other", f => f.tags.Count == 0);
 
             /* Init contextMenu */
             InitializeContestMenu();
@@ -163,34 +200,39 @@ namespace Emoticoner
         {
             TabPage tabPage = new TabPage() {
                 Text = title,
+                Anchor = anchorFull
             };
             tabControl.Controls.Add(tabPage);
             formMoveHook.SetupHandlers(tabPage);
             
             /* Init emoticonLayer */
             EmoticonLayer emoticonLayer = new EmoticonLayer(this)
-            {
-                Width = ClientSize.Width,
-                Height = ClientSize.Height,
-                Location = new Point(0, 0),
+            {              
+                Size = tabPage.ClientSize,
                 MinimalWidth = 80,
                 MinimalHeight = 25,
                 Font = Font,
                 colorScheme = colorScheme,
-                Margin = new Padding(3,3,3,50)
+                Margin = new Padding(3,3,3,3)
             };
             emoticonLayer.Anchor = anchorFull;
             emoticonLayer.MouseClick += mouseClickHandlerRightClickGoTray;
             formMoveHook.SetupHandlers(emoticonLayer);
-            emoticonLayer.AddEmoticons(emoticonDatabase.GetAll(condition));
+            emoticonLayer.SetEmoticons(emoticonDatabase.GetAll(condition));
+            emoticonLayer.Condition = condition;
 
             /* Scroll magic */
-            emoticonLayer.HorizontalScroll.Maximum = 1;
+            emoticonLayer.HorizontalScroll.Maximum = 100;
             emoticonLayer.HorizontalScroll.Visible = false;
             emoticonLayer.HorizontalScroll.Enabled = false;
             emoticonLayer.VerticalScroll.Maximum = 0;
             emoticonLayer.VerticalScroll.Visible = false;
             emoticonLayer.AutoScroll = true;
+
+            /* Events */
+            emoticonDatabase.Subscribe(emoticonLayer, EmoticonAddedHandler);
+            emoticonDatabase.Subscribe(emoticonLayer, EmoticonDeletedHandler);
+            emoticonDatabase.Subscribe(emoticonLayer, EmoticonChangedHandle);
 
             tabPage.Controls.Add(emoticonLayer);
         }
@@ -198,8 +240,11 @@ namespace Emoticoner
         private void InitializeForm()
         {
             Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            OurFont = Font;
             ClientSize = new Size(364, 364);
             TopMost = true;
+
+            buttonMenu.BackColor = colorScheme.colorButton;
         }
 
         private void HandlerGoFromTray(object sender, EventArgs e)

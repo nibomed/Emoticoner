@@ -92,7 +92,6 @@ namespace DataTool
                 Emoticon emo = new Emoticon() {
                     text = text,
                     id = currentId,
-               //     tags = textBoxTags.Lines.ToList()
                 };
                 emoticonDatabase.Merge(emo);
 
@@ -136,19 +135,19 @@ namespace DataTool
             {
                 return;
             }
-            Emoticon emo = emoticonDatabase.GetByText(comboBoxEmoticon.Text);
-            if (emo.tags != null)
+          //  Emoticon emo = emoticonDatabase.GetEmoticon(e => e.tags);
+           /* if (emo.tags != null)
             {
                 for (int i = 0; i < emo.tags.Count; i++)
                 {
                     textBoxTags.Text += emo.tags[i] + "\r\n";
                 }
-            }
+            }*/
         }
 
         private void updateId()
         {
-            Emoticon emo = emoticonDatabase.GetByText(comboBoxEmoticon.Text);
+            Emoticon emo = emoticonDatabase.GetEmoticon(e => e.text == comboBoxEmoticon.Text);
             LabelId.Text = "id: ";
             if (emo == Emoticon.None)
             {
