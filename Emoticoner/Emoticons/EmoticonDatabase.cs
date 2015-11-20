@@ -163,29 +163,6 @@ namespace Emoticoner.Emoticons
             deleteEmoticonEvent(e);
         }
 
-        private void generateEvent(string v, Emoticon e)
-        {
-            foreach (Action<EmoticonEventArgs> handler in changeEmoticonEventHandlers)
-            {
-                handler(new EmoticonEventArgs());
-            }
-        }
-
-        private void updateTags()
-        {
-            foreach (Emoticon emoticon in emoticons)
-            {
-                foreach (Tag tag in emoticon.tags)
-                {
-                    if (tags.FindIndex(s => s.Text == tag.Text) < 0)
-                    {
-                        tags.Add(tag);
-                    }
-                    tag.Ref();
-                }
-            }
-        }
-
         public void Save(string file)
         {
             List<EmoticonFileItem> toFile = new List<EmoticonFileItem>();
@@ -225,11 +202,6 @@ namespace Emoticoner.Emoticons
         public List<Emoticon> GetAll(Predicate<Emoticon> p)
         {
             return emoticons.FindAll(p);
-        }
-
-        public int Length()
-        {
-            return emoticons.Count;
         }
 
         public int GetEmptyIndex()
