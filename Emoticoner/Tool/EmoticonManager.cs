@@ -220,6 +220,11 @@ namespace Emoticoner.Tool
 
         private void buttonApply_Click(object sender, EventArgs e)
         {
+            emmoticonAdd();
+        }
+
+        private void emmoticonAdd()
+        {
             Emoticon toAdd = new Emoticon()
             {
                 text = textBox1.Text,
@@ -250,6 +255,14 @@ namespace Emoticoner.Tool
         private void visibleChangeHandler(object sender, EventArgs e)
         {
             textBox1.Focus();
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                emmoticonAdd();
+            }
         }
     }
 }
