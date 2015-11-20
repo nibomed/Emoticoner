@@ -18,15 +18,16 @@ namespace Emoticoner.Tool
         public EmoticonDatabase database { set; get; }
 
         public List<Tag> Tags { set; get; }
-        private List<bool> selected;
+        private List<bool> isSelected;
+        private List<bool> isSelectedLock;
+        private bool isTagLocked = false;
 
-        private Color selectedTags;
-        private Color unselectedTags;
+        private Color colorSelectedTags;
+        private Color colorUnselectedTags;
 
         private ColorScheme colorScheme = new ColorScheme();
 
         private int id;
-        private int prev_id;
         private EmoticonLayer historyEmoticonLayer;
         private EmoticonLayer previewEmoticonLayer;
 
@@ -46,15 +47,14 @@ namespace Emoticoner.Tool
             tableLayoutPanelLeftCenter.BackColor = colorScheme.colorSectionBG;
             tableLayoutPanelLeftBottom.BackColor = colorScheme.colorSectionBG;
 
-            selectedTags = colorScheme.colorSelectedItem;
-            unselectedTags = colorScheme.colorEmoticonLayerBG;
+            colorSelectedTags = colorScheme.colorSelectedItem;
+            colorUnselectedTags = colorScheme.colorEmoticonLayerBG;
             listViewTags.BackColor = colorScheme.colorEmoticonLayerBG;
 
             buttonAddTag.BackColor = colorScheme.colorButton;
             buttonApply.BackColor = colorScheme.colorButton;
-            buttonDeleteTag.BackColor = colorScheme.colorButton;
+            buttonLockTag.BackColor = colorScheme.colorButton;
             buttonDeleteEmoticon.BackColor = colorScheme.colorWarning;
-            id = prev_id = 0;
         }
 
         private void listViewTagsGotFocusHandler(object sender, EventArgs e)
@@ -122,7 +122,8 @@ namespace Emoticoner.Tool
         {
             Tags = database.tags;
             Tags.OrderByDescending(t => t.References);
-            selected = new List<bool>();
+            isSelected = new List<bool>();
+            isSelectedLock = new List<bool>();
             foreach (Tag tag in Tags)
             {
                 registerTag(tag);
@@ -133,7 +134,8 @@ namespace Emoticoner.Tool
         {
             string sufix = "                                     ";
             listViewTags.Items.Add(tag.Text + sufix);
-            selected.Add(false);
+            isSelected.Add(false);
+            isSelectedLock.Add(false);
         }
 
         private void listViewTagsMouseClickEventHandler(object sender, MouseEventArgs e)
@@ -146,17 +148,25 @@ namespace Emoticoner.Tool
             var idx = listViewTags.SelectedIndices;
             foreach (int i in idx)
             {
-                selected[i] = !selected[i];
-                if (selected[i])
+                isSelected[i] = !isSelected[i];
+            }
+            redrawTags();
+            textBoxEmoticonInput.Focus();
+        }
+
+        private void redrawTags()
+        {
+            for (int i = 0; i < listViewTags.Items.Count; i++)
+            {
+                if (isSelected[i])
                 {
-                    listViewTags.Items[i].BackColor = selectedTags;
+                    listViewTags.Items[i].BackColor = colorSelectedTags;
                 }
                 else
                 {
-                    listViewTags.Items[i].BackColor = unselectedTags;
+                    listViewTags.Items[i].BackColor = colorUnselectedTags;
                 }
             }
-            textBoxEmoticonInput.Focus();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -184,32 +194,50 @@ namespace Emoticoner.Tool
             registerTag(toAdd);
         }
 
-        private void buttonDeleteTagClickHandler(object sender, EventArgs e)
+        private void buttonLockTagClickHandler(object sender, EventArgs e)
         {
-            MessageBox.Show("Don't work now...");
+            if (isTagLocked)
+            {
+                isTagLocked = false;
+                buttonLockTag.BackColor = colorScheme.colorButton;
+            }
+            else
+            {
+                isTagLocked = true;
+                for (int i = 0; i < isSelected.Count; i++)
+                {
+                    isSelectedLock[i] = isSelected[i];
+                }
+                buttonLockTag.BackColor = colorScheme.colorWarning;
+            }
         }
 
         private void textBoxEmotionInputTextChangedHandler(object sender, EventArgs e)
         {
             string text = textBoxEmoticonInput.Text;
-            Emoticon emoticon = database.GetEmoticon(f => f.text == text);
-            id = emoticon.id;
-            if (emoticon != Emoticon.None || prev_id != id)
+
+            redrawPreview();
+            if (!isTagLocked)
             {
+                Emoticon emoticon = database.GetEmoticon(f => f.text == text);
+                id = emoticon.id;
                 for (int i = 0; i < Tags.Count; i++)
                 {
                     if (emoticon.HaveTag(Tags[i]))
                     {
-                        listViewTags.Items[i].BackColor = selectedTags;
+                        isSelected[i] = true;
                     }
                     else
                     {
-                        listViewTags.Items[i].BackColor = unselectedTags;
+                        isSelected[i] = false;
                     }
                 }
+                redrawTags();
             }
-            prev_id = id;
+        }
 
+        private void redrawPreview()
+        {
             List<Emoticon> tmp = new List<Emoticon>() { };
             tmp.Add(new Emoticon() { text = textBoxEmoticonInput.Text });
             previewEmoticonLayer.SetEmoticons(tmp);
@@ -231,7 +259,7 @@ namespace Emoticoner.Tool
 
             for (int i = 0; i < Tags.Count; i++)
             {
-                if (selected[i])
+                if (isSelected[i])
                 {
                     toAdd.tags.Add(Tags[i]);
                 }
@@ -239,15 +267,34 @@ namespace Emoticoner.Tool
 
             database.ForceAdd(toAdd);
             database.Save("Emoticons.xml");
-            prev_id = -1;
-            textBoxEmoticonInput.Text = "";
+            resetInput();
         }
 
         private void buttonDeleteEmoticonClickHandler(object sender, EventArgs e)
         {
             database.ForceDelete(textBoxEmoticonInput.Text);
             database.Save("Emoticons.xml");
+            resetInput();
+        }
+
+        private void resetInput()
+        {
             textBoxEmoticonInput.Text = "";
+            if (isTagLocked)
+            {
+                for (int i = 0; i < isSelected.Count; i++)
+                {
+                    isSelected[i] = isSelectedLock[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < isSelected.Count; i++)
+                {
+                    isSelected[i] = false;
+                }
+            }
+            redrawTags();
         }
 
         private void visibleChangeHandler(object sender, EventArgs e)
