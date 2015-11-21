@@ -149,12 +149,12 @@ namespace Emoticoner
             
 
             /* Init tabs */
-            addEmoticonTab("All", f => f.id > 0);
+            addEmoticonTab("All", f => f.Id > 0);
             foreach (Tag tag in emoticonDatabase.tags)
             {
                 addEmoticonTab(tag.Text, f => f.HaveTag(tag));
             }
-            addEmoticonTab("Other", f => f.tags.Count == 0);
+            addEmoticonTab("Other", f => f.Tags.Count == 0);
 
             /* Init contextMenu */
             InitializeContestMenu();

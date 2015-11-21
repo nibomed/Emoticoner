@@ -139,7 +139,7 @@ namespace Emoticoner.Emoticons
 
         public void AddEmoticon(Emoticon newEmoticons)
         {
-            if (!emoticons.Any(f => (f.id == newEmoticons.id)||(f.text == newEmoticons.text)))
+            if (!emoticons.Any(f => (f.Id == newEmoticons.Id)||(f.Text == newEmoticons.Text)))
             {
                 emoticons.Add(newEmoticons);
             }
@@ -176,7 +176,7 @@ namespace Emoticoner.Emoticons
                 int tileWidth = emoticons[i].TileWidth(Font, currentEmoticonBaseWidth);
                 Label label = new Label()
                 {
-                    Text = emoticons[i].text,
+                    Text = emoticons[i].Text,
                     ClientSize = new Size((currentEmoticonBaseWidth + Border) * tileWidth, MinimalHeight),
                     TextAlign = ContentAlignment.MiddleCenter,
                     BackColor = colorScheme.colorUnselectedItem,

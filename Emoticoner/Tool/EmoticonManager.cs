@@ -222,8 +222,8 @@ namespace Emoticoner.Tool
             redrawPreview();
             if (!isTagLocked)
             {
-                Emoticon emoticon = database.GetEmoticon(f => f.text == text);
-                id = emoticon.id;
+                Emoticon emoticon = database.GetEmoticon(f => f.Text == text);
+                id = emoticon.Id;
                 for (int i = 0; i < Tags.Count; i++)
                 {
                     if (emoticon.HaveTag(Tags[i]))
@@ -242,7 +242,7 @@ namespace Emoticoner.Tool
         private void redrawPreview()
         {
             List<Emoticon> tmp = new List<Emoticon>() { };
-            tmp.Add(new Emoticon() { text = textBoxEmoticonInput.Text });
+            tmp.Add(new Emoticon() { Text = textBoxEmoticonInput.Text });
             previewEmoticonLayer.SetEmoticons(tmp);
             previewEmoticonLayer.UpdateElement();
         }
@@ -256,15 +256,15 @@ namespace Emoticoner.Tool
         {
             Emoticon toAdd = new Emoticon()
             {
-                text = textBoxEmoticonInput.Text,
-                id = database.GetEmptyIndex()
+                Text = textBoxEmoticonInput.Text,
+                Id = database.GetEmptyIndex()
             };
 
             for (int i = 0; i < Tags.Count; i++)
             {
                 if (isSelected[i])
                 {
-                    toAdd.tags.Add(Tags[i]);
+                    toAdd.Tags.Add(Tags[i]);
                 }
             }
 

@@ -74,9 +74,9 @@ namespace Emoticoner.Emoticons
             public List<string> tags;
             public EmoticonFileItem(Emoticon emo)
             {
-                text = emo.text;
+                text = emo.Text;
                 tags = new List<string>();
-                foreach (Tag t in emo.tags)
+                foreach (Tag t in emo.Tags)
                 {
                     tags.Add(t.Text);
                 }
@@ -111,15 +111,15 @@ namespace Emoticoner.Emoticons
             {
                 Emoticon emo = new Emoticon()
                 {
-                    text = efi.text,
-                    id = _id++
+                    Text = efi.text,
+                    Id = _id++
                 };
                 foreach (string stag in efi.tags)
                 {
                     AddTag(stag);
                     Tag tag = GetTag(stag);
                     tag.Ref();
-                    emo.tags.Add(tag);
+                    emo.Tags.Add(tag);
                 }
                 emoticons.Add(emo);
             }
@@ -145,7 +145,7 @@ namespace Emoticoner.Emoticons
 
         internal void ForceDelete(string text)
         {
-            List<Emoticon> emo = emoticons.FindAll(e => e.text == text);
+            List<Emoticon> emo = emoticons.FindAll(e => e.Text == text);
             foreach (Emoticon e in emo)
             {
                 Delete(e);
@@ -203,7 +203,7 @@ namespace Emoticoner.Emoticons
         public int GetEmptyIndex()
         {
             int res = 1;
-            while (GetEmoticon(e => e.id == res) != Emoticon.None)
+            while (GetEmoticon(e => e.Id == res) != Emoticon.None)
             {
                 res++;
             }
@@ -212,16 +212,16 @@ namespace Emoticoner.Emoticons
 
         public bool Add(Emoticon emo)
         {
-            if (ContainsEmoticon(e => e.text == emo.text))
+            if (ContainsEmoticon(e => e.Text == emo.Text))
             {
                 return false;
             }
             
             Emoticon toAdd = new Emoticon()
             {
-                text = emo.text,
-                id = GetEmptyIndex(),
-                tags = emo.tags
+                Text = emo.Text,
+                Id = GetEmptyIndex(),
+                Tags = emo.Tags
             };
             emoticons.Add(toAdd);
             addEmoticonEvent( toAdd);
@@ -235,15 +235,15 @@ namespace Emoticoner.Emoticons
                 return;
             }
             Emoticon inDatabase;
-            inDatabase = GetEmoticon(e => e.text == emo.text);
+            inDatabase = GetEmoticon(e => e.Text == emo.Text);
             if (inDatabase == Emoticon.None)
             {
                 throw new Exception("EmoticonDatabase say 'You can't be here'");
             }
 
-            if (emo.tags != null)
+            if (emo.Tags != null)
             {
-                inDatabase.tags.Concat(emo.tags);
+                inDatabase.Tags.Concat(emo.Tags);
             }
         }
 
@@ -254,8 +254,8 @@ namespace Emoticoner.Emoticons
                 return;
             }
 
-            Emoticon inDatabase = GetEmoticon(e => e.text == emo.text);
-            inDatabase.tags = emo.tags;
+            Emoticon inDatabase = GetEmoticon(e => e.Text == emo.Text);
+            inDatabase.Tags = emo.Tags;
             changeEmoticonEvent(inDatabase);
         }
 

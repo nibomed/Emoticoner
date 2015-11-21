@@ -8,26 +8,26 @@ namespace Emoticoner.Emoticons
 {
     public partial class Emoticon
     {
-        public string text { get; set; }
-        public int id  { get; set; }
-        public List<Tag> tags { get; set; }
-        public static Emoticon None = new Emoticon() { text = "NaN", id = -1 };
+        public string Text { get; set; }
+        public int Id  { get; set; }
+        public List<Tag> Tags { get; set; }
+        public static Emoticon None = new Emoticon() { Text = "NaN", Id = -1 };
 
         public Size RenderSize(Font font)
         {
-            Size result = TextRenderer.MeasureText(text, font);
+            Size result = TextRenderer.MeasureText(Text, font);
 
             return result;
         }
 
         public Emoticon()
         {
-            tags = new List<Tag>();
+            Tags = new List<Tag>();
         }
 
         public int TileWidth(Font font, int width)
         {
-            int renderWidth = TextRenderer.MeasureText(text, font).Width;
+            int renderWidth = TextRenderer.MeasureText(Text, font).Width;
             int tileWidth = (renderWidth / width) + ((renderWidth % width) > 0 ? 1 : 0);
             if (tileWidth == 0)
             {
@@ -39,7 +39,7 @@ namespace Emoticoner.Emoticons
         
         internal bool HaveTag(Tag tag)
         {
-            if (tags.FindIndex(t => t.Text == tag.Text) >= 0)
+            if (Tags.FindIndex(t => t.Text == tag.Text) >= 0)
             {
                 return true;
             }
