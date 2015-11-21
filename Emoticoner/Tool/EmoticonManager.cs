@@ -198,18 +198,21 @@ namespace Emoticoner.Tool
         {
             if (isTagLocked)
             {
+                colorSelectedTags = colorScheme.colorSelectedItem;
                 isTagLocked = false;
                 buttonLockTag.BackColor = colorScheme.colorButton;
             }
             else
             {
                 isTagLocked = true;
+                colorSelectedTags = colorScheme.colorWarning;
                 for (int i = 0; i < isSelected.Count; i++)
                 {
                     isSelectedLock[i] = isSelected[i];
                 }
                 buttonLockTag.BackColor = colorScheme.colorWarning;
             }
+            redrawTags();
         }
 
         private void textBoxEmotionInputTextChangedHandler(object sender, EventArgs e)
