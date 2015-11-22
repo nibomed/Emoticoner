@@ -188,8 +188,7 @@ namespace Emoticoner.Emoticons
             }
 
             /* If we remove it we broke last row emoticons */
-            RowStyles.Add(new RowStyle(SizeType.Absolute, MinimalHeight + Border));
-            Controls.Add(new Label() { Text = "" }, 0, y+1);
+            Controls.Add(new Label() { Text = "" }, 0, RowStyles.Count + 1);
         }
 
         private void mouseClick(object sender, MouseEventArgs e)
