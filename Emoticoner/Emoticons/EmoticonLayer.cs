@@ -179,7 +179,7 @@ namespace Emoticoner.Emoticons
                 {
                     y++;
                     x = 0;
-                    //TODO AddRange after fix bug with additional colum
+                    //TODO AddRange after fix bug with additional column
                     RowStyles.Add(new RowStyle(SizeType.Absolute, MinimalHeight + Border));
                 }
                 SetColumnSpan(label, tileWidth);
