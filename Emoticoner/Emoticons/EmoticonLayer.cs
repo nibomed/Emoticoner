@@ -103,26 +103,10 @@ namespace Emoticoner.Emoticons
 
         private void clearTableLayout()
         {
-            Control c;
-            c = GetNextControl(this, true);
-            while (c != null)
-            {
-                Controls.Remove(c);
-                c = GetNextControl(this, true);
-            }
-            removeStyles();
-        }
 
-        private void removeStyles()
-        {
-            while (ColumnStyles.Count > 0)
-            {
-                ColumnStyles.RemoveAt(0);
-            }
-            while (RowStyles.Count > 0)
-            {
-                RowStyles.RemoveAt(0);
-            }
+            Controls.Clear();
+            ColumnStyles.Clear();
+            RowStyles.Clear();
         }
 
         public void AddEmoticons(List<Emoticon> newEmoticons)
