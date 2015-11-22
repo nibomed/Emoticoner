@@ -161,11 +161,11 @@ namespace Emoticoner.Emoticons
                 Label label = new Label()
                 {
                     Text = emoticons[i].Text,
-                    ClientSize = new Size((currentEmoticonBaseWidth + Border) * tileWidth, MinimalHeight),
                     TextAlign = ContentAlignment.MiddleCenter,
                     BackColor = colorScheme.colorUnselectedItem,
                     Font = Font,
-                    Margin = new Padding(Border)
+                    Margin = new Padding(Border),
+                    Anchor = MainForm.anchorFull,
                 };
                 if (parentForm != null)
                 {
@@ -179,12 +179,17 @@ namespace Emoticoner.Emoticons
                 {
                     y++;
                     x = 0;
+                    //TODO AddRange after fix bug with additional colum
                     RowStyles.Add(new RowStyle(SizeType.Absolute, MinimalHeight + Border));
                 }
                 SetColumnSpan(label, tileWidth);
-                Controls.Add(label, x, y);
+                           Controls.Add(label, x, y);
                 x += tileWidth;
             }
+
+            /* If we remove it we broke last row emoticons */
+            RowStyles.Add(new RowStyle(SizeType.Absolute, MinimalHeight + Border));
+            Controls.Add(new Label() { Text = "" }, 0, y+1);
         }
 
         private void mouseClick(object sender, MouseEventArgs e)
