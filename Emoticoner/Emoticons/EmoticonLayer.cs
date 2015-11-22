@@ -183,7 +183,7 @@ namespace Emoticoner.Emoticons
                     RowStyles.Add(new RowStyle(SizeType.Absolute, MinimalHeight + Border));
                 }
                 SetColumnSpan(label, tileWidth);
-                           Controls.Add(label, x, y);
+                Controls.Add(label, x, y);
                 x += tileWidth;
             }
 
