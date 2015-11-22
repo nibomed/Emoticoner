@@ -106,13 +106,13 @@ namespace Emoticoner.Emoticons
                 return;
             }
 
-            int _id = 0;
+            int id = 0;
             foreach (EmoticonFileItem efi in fromFile)
             {
                 Emoticon emo = new Emoticon()
                 {
                     Text = efi.text,
-                    Id = _id++
+                    Id = id++
                 };
                 foreach (string stag in efi.tags)
                 {
@@ -121,6 +121,7 @@ namespace Emoticoner.Emoticons
                     tag.Ref();
                     emo.Tags.Add(tag);
                 }
+                tags.OrderBy(t=> t.References);
                 emoticons.Add(emo);
             }
         }
