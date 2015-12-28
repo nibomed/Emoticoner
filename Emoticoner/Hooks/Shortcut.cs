@@ -82,7 +82,7 @@ namespace Emoticoner.Hooks
         /// </summary>
         /// <param name="modifier">The modifiers that are associated with the hot key.</param>
         /// <param name="key">The key itself that is associated with the hot key.</param>
-        public void RegisterHotKey(ModifierKeysEnum modifier, Keys key)
+        public void RegisterHotKey(int modifier, Keys key)
         {
             // increment the counter.
             _currentId = _currentId + 1;
@@ -147,7 +147,6 @@ namespace Emoticoner.Hooks
     {
         Alt = 1,
         Control = 2,
-        Shift = 4,
-        Win = 8
+        Win = 4
     }
 }

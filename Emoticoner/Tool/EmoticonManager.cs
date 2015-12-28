@@ -269,14 +269,14 @@ namespace Emoticoner.Tool
             }
 
             database.ForceAdd(toAdd);
-            database.Save("Emoticons.xml");
+            database.Save(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Emoticoner\Emoticons.xml");
             resetInput();
         }
 
         private void buttonDeleteEmoticonClickHandler(object sender, EventArgs e)
         {
             database.ForceDelete(textBoxEmoticonInput.Text);
-            database.Save("Emoticons.xml");
+            database.Save(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Emoticoner\Emoticons.xml");
             resetInput();
         }
 

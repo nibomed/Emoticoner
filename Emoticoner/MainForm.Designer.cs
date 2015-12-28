@@ -97,6 +97,7 @@
             // 
             // buttonMenu
             // 
+            this.buttonMenu.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.buttonMenu.Location = new System.Drawing.Point(403, 2);
             this.buttonMenu.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
             this.buttonMenu.Name = "buttonMenu";

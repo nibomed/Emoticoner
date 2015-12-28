@@ -2,6 +2,7 @@
 using Emoticoner.Helpers;
 using Emoticoner.Hooks;
 using Emoticoner.Tool;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -73,8 +74,8 @@ namespace Emoticoner
         private void Start()
         {
             toTray();
-            notifyIcon1.BalloonTipTitle = "App is runing";
-            notifyIcon1.BalloonTipText = "Use alt+e";
+            notifyIcon1.BalloonTipTitle = "Emoticoner is runing";
+            notifyIcon1.BalloonTipText = "Use tray icon or your shortcut";
             notifyIcon1.ShowBalloonTip(2000);
 
             for (int i = 0; i < tabControl.TabCount; i++)
@@ -108,20 +109,30 @@ namespace Emoticoner
             KeyPress += new KeyPressEventHandler(KeyPressHandlerEscapeGoTray);
             Resize += new EventHandler(this.HandlerResize);
 
-            shortCutHook.RegisterHotKey(ModifierKeysEnum.Alt, Keys.E);
+            int h_mode = int.Parse(Reg.Read("HotKeyMod"));
+            char h_key = char.Parse(Reg.Read("HotKeyKey"));
+            shortCutHook.RegisterHotKey(h_mode, (Keys)char.ToUpper(h_key));
             shortCutHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(HandlerGoFromTray);
         }
 
         private void InitializeComponentByHand()
         {
             /* Init colorScheme */
-            colorScheme = new ColorScheme();
+            string theme = Reg.Read("Theme");
+            if (theme != null)
+            {
+                colorScheme = new ColorScheme(int.Parse(theme));
+            }
+            else
+            {
+                colorScheme = new ColorScheme();
+            }
 
             InitializeForm();
 
             /* Init emoticonDatabase */
             emoticonDatabase = new EmoticonDatabase();
-            emoticonDatabase.Load("Emoticons.xml");
+            emoticonDatabase.Load(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Emoticoner\Emoticons.xml");
 
             /* Init EmoticonManager */
             emoticonManager.database = emoticonDatabase;
@@ -136,6 +147,9 @@ namespace Emoticoner
             tableLayoutPanelDown.BackColor = colorScheme.colorSectionBG;
 
             formMoveHook.SetupHandlers(tableLayoutPanelRoot);
+            formMoveHook.SetupHandlers(tableLayoutPanelUp);
+            formMoveHook.SetupHandlers(tableLayoutPanelDown);
+
 
             /* Init tabControl */
             tabControl = new TabControl()
@@ -154,7 +168,7 @@ namespace Emoticoner
             {
                 addEmoticonTab(tag.Text, f => f.HaveTag(tag));
             }
-            addEmoticonTab("Other", f => f.Tags.Count == 0);
+            //addEmoticonTab("Other", f => f.Tags.Count == 0);
 
             /* Init contextMenu */
             InitializeContestMenu();
@@ -188,7 +202,8 @@ namespace Emoticoner
 
         private void menuItemClickSettingsHandler(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            SettingsForm settingsForm = new SettingsForm();
+            settingsForm.Show();
         }
 
         private void menuItemClickEmoticonManagerHandler(object sender, EventArgs e)
@@ -243,6 +258,7 @@ namespace Emoticoner
             OurFont = Font;
             ClientSize = new Size(364, 364);
             TopMost = true;
+            FormBorderStyle = FormBorderStyle.None;
 
             buttonMenu.BackColor = colorScheme.colorButton;
         }

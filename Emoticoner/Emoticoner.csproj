@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Emoticoner</RootNamespace>
     <AssemblyName>Emoticoner</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -71,6 +71,7 @@
     <Compile Include="Emoticons\Tag.cs" />
     <Compile Include="Helpers\ColorScheme.cs" />
     <Compile Include="Helpers\Pair.cs" />
+    <Compile Include="Helpers\Reg.cs" />
     <Compile Include="Helpers\Serializer.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -94,6 +95,12 @@
     <Compile Include="Tool\EmoticonManager.Designer.cs">
       <DependentUpon>EmoticonManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tool\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tool\SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,6 +116,9 @@
     </Compile>
     <EmbeddedResource Include="Tool\EmoticonManager.resx">
       <DependentUpon>EmoticonManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tool\SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
