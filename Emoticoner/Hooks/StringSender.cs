@@ -12,7 +12,6 @@ namespace Emoticoner.Hooks
         public static SendMethod Method = SendMethod.SendKeys;
         static private string WrapChar(char c)
         {
-            // TODO: work smarter with char and string
             if (c.ToString() != "(" && c.ToString() != ")" &&
                 c.ToString() != "+" && c.ToString() != "%" &&
                 c.ToString() != "~" && c.ToString() != "^")

@@ -16,12 +16,11 @@ namespace Emoticoner.Tool
     {
         private Settings settings;
         /* remove this, use signals*/
-        private MainForm form;
+        private List<Action> subscribed = new List<Action>();
 
-        public SettingsForm(Settings s, MainForm f)
+        public SettingsForm(Settings s)
         {
             settings = s;
-            form = f;
             InitializeComponent();
             // FormBorderStyle = FormBorderStyle.None;
             TopMost = true;
@@ -42,7 +41,6 @@ namespace Emoticoner.Tool
             string h_key = listBoxKey.SelectedItem.ToString();
             settings.ShortCutMod = h_mode;
             settings.ShortCutKey = char.Parse(h_key);
-
             
             if (radioButtonTheme1.Checked)
             {
@@ -52,9 +50,22 @@ namespace Emoticoner.Tool
             {
                 settings.Theme = 1;
             }
+
+            if (radioButtonMethod1.Checked)
+            {
+                settings.Method = SendMethod.SendKeys;
+            }
+            else
+            {
+                settings.Method = SendMethod.Clipboard;
+            }
             settings.Save();
- //           MessageBox.Show("Restart app for apply changes");
-            form.ApplySettings();
+            //           MessageBox.Show("Restart app for apply changes");
+            foreach (Action a in subscribed)
+            {
+                a();
+            }
+            //form.ApplySettings();
             Close();
         }
 
@@ -77,7 +88,7 @@ namespace Emoticoner.Tool
                 radioButtonTheme1.Checked = true;
             }
 
-            if (settings.Method == SendMethod.Clipboard)
+            if (settings.Method == SendMethod.SendKeys)
             {
                 radioButtonMethod1.Checked = true;
             }
@@ -85,6 +96,10 @@ namespace Emoticoner.Tool
             {
                 radioButtonMethod2.Checked = true;
             }
+        }
+        internal void Subscribe(Action settingsClosedHandler)
+        {
+            subscribed.Add(settingsClosedHandler);
         }
     }
 }

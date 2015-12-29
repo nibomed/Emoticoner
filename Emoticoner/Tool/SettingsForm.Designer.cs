@@ -1,4 +1,6 @@
-﻿namespace Emoticoner.Tool
+﻿using System;
+
+namespace Emoticoner.Tool
 {
     partial class SettingsForm
     {
@@ -431,6 +433,8 @@
             this.ResumeLayout(false);
 
         }
+
+
 
         #endregion
 

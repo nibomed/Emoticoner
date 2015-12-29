@@ -28,35 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanelRoot = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelCenter = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelLeft = new System.Windows.Forms.TableLayoutPanel();
-            this.checkBoxShortcut = new System.Windows.Forms.CheckBox();
-            this.checkBoxRegister = new System.Windows.Forms.CheckBox();
             this.labelPath = new System.Windows.Forms.Label();
             this.tableLayoutPanelPath = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxPath = new System.Windows.Forms.TextBox();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.radioButtonTheme1 = new System.Windows.Forms.RadioButton();
-            this.radioButtonTheme2 = new System.Windows.Forms.RadioButton();
-            this.pictureBoxTheme2 = new System.Windows.Forms.PictureBox();
-            this.labelTheme = new System.Windows.Forms.Label();
-            this.pictureBoxTheme1 = new System.Windows.Forms.PictureBox();
+            this.checkBoxRegister = new System.Windows.Forms.CheckBox();
+            this.checkBoxShortcut = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanelBottom = new System.Windows.Forms.TableLayoutPanel();
             this.buttonLicense = new System.Windows.Forms.Button();
-            this.buttonInstall = new System.Windows.Forms.Button();
             this.buttonExit = new System.Windows.Forms.Button();
+            this.buttonInstall = new System.Windows.Forms.Button();
+            this.buttonSettings = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tableLayoutPanelRoot.SuspendLayout();
             this.tableLayoutPanelCenter.SuspendLayout();
             this.tableLayoutPanelLeft.SuspendLayout();
             this.tableLayoutPanelPath.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTheme2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTheme1)).BeginInit();
             this.tableLayoutPanelBottom.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,7 +69,7 @@
             this.tableLayoutPanelRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanelRoot.Size = new System.Drawing.Size(558, 529);
+            this.tableLayoutPanelRoot.Size = new System.Drawing.Size(558, 229);
             this.tableLayoutPanelRoot.TabIndex = 0;
             // 
             // tableLayoutPanelCenter
@@ -84,16 +77,15 @@
             this.tableLayoutPanelCenter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelCenter.ColumnCount = 2;
+            this.tableLayoutPanelCenter.ColumnCount = 1;
             this.tableLayoutPanelCenter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelCenter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
+            this.tableLayoutPanelCenter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelCenter.Controls.Add(this.tableLayoutPanelLeft, 0, 0);
-            this.tableLayoutPanelCenter.Controls.Add(this.tableLayoutPanel1, 1, 0);
             this.tableLayoutPanelCenter.Location = new System.Drawing.Point(3, 63);
             this.tableLayoutPanelCenter.Name = "tableLayoutPanelCenter";
             this.tableLayoutPanelCenter.RowCount = 1;
             this.tableLayoutPanelCenter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelCenter.Size = new System.Drawing.Size(552, 423);
+            this.tableLayoutPanelCenter.Size = new System.Drawing.Size(552, 123);
             this.tableLayoutPanelCenter.TabIndex = 0;
             // 
             // tableLayoutPanelLeft
@@ -103,52 +95,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLeft.ColumnCount = 1;
             this.tableLayoutPanelLeft.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelLeft.Controls.Add(this.checkBoxShortcut, 0, 4);
-            this.tableLayoutPanelLeft.Controls.Add(this.checkBoxRegister, 0, 3);
             this.tableLayoutPanelLeft.Controls.Add(this.labelPath, 0, 0);
             this.tableLayoutPanelLeft.Controls.Add(this.tableLayoutPanelPath, 0, 1);
+            this.tableLayoutPanelLeft.Controls.Add(this.tableLayoutPanel1, 0, 3);
             this.tableLayoutPanelLeft.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelLeft.Name = "tableLayoutPanelLeft";
-            this.tableLayoutPanelLeft.RowCount = 7;
+            this.tableLayoutPanelLeft.RowCount = 5;
             this.tableLayoutPanelLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanelLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanelLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanelLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanelLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanelLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelLeft.Size = new System.Drawing.Size(246, 417);
+            this.tableLayoutPanelLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelLeft.Size = new System.Drawing.Size(546, 117);
             this.tableLayoutPanelLeft.TabIndex = 0;
-            // 
-            // checkBoxShortcut
-            // 
-            this.checkBoxShortcut.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxShortcut.AutoSize = true;
-            this.checkBoxShortcut.Checked = true;
-            this.checkBoxShortcut.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxShortcut.Location = new System.Drawing.Point(3, 113);
-            this.checkBoxShortcut.Name = "checkBoxShortcut";
-            this.checkBoxShortcut.Size = new System.Drawing.Size(240, 29);
-            this.checkBoxShortcut.TabIndex = 0;
-            this.checkBoxShortcut.Text = "Create desctop shortcut";
-            this.checkBoxShortcut.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxRegister
-            // 
-            this.checkBoxRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxRegister.AutoSize = true;
-            this.checkBoxRegister.Checked = true;
-            this.checkBoxRegister.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxRegister.Location = new System.Drawing.Point(3, 78);
-            this.checkBoxRegister.Name = "checkBoxRegister";
-            this.checkBoxRegister.Size = new System.Drawing.Size(240, 29);
-            this.checkBoxRegister.TabIndex = 1;
-            this.checkBoxRegister.Text = "Register app in Control Panel";
-            this.checkBoxRegister.UseVisualStyleBackColor = true;
             // 
             // labelPath
             // 
@@ -158,7 +119,7 @@
             this.labelPath.AutoSize = true;
             this.labelPath.Location = new System.Drawing.Point(3, 0);
             this.labelPath.Name = "labelPath";
-            this.labelPath.Size = new System.Drawing.Size(240, 30);
+            this.labelPath.Size = new System.Drawing.Size(540, 30);
             this.labelPath.TabIndex = 2;
             this.labelPath.Text = "Installation Path";
             this.labelPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -179,15 +140,17 @@
             this.tableLayoutPanelPath.RowCount = 1;
             this.tableLayoutPanelPath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelPath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanelPath.Size = new System.Drawing.Size(246, 35);
+            this.tableLayoutPanelPath.Size = new System.Drawing.Size(546, 35);
             this.tableLayoutPanelPath.TabIndex = 3;
             // 
             // textBoxPath
             // 
-            this.textBoxPath.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBoxPath.Location = new System.Drawing.Point(3, 6);
+            this.textBoxPath.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxPath.Location = new System.Drawing.Point(3, 3);
             this.textBoxPath.Name = "textBoxPath";
-            this.textBoxPath.Size = new System.Drawing.Size(200, 22);
+            this.textBoxPath.Size = new System.Drawing.Size(500, 22);
             this.textBoxPath.TabIndex = 0;
             this.textBoxPath.Text = "C:\\Program Files";
             // 
@@ -196,7 +159,7 @@
             this.buttonOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOpen.Location = new System.Drawing.Point(209, 3);
+            this.buttonOpen.Location = new System.Drawing.Point(509, 3);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(34, 29);
             this.buttonOpen.TabIndex = 1;
@@ -209,89 +172,48 @@
             this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.radioButtonTheme1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.radioButtonTheme2, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBoxTheme2, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.labelTheme, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBoxTheme1, 0, 2);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(255, 3);
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxRegister, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxShortcut, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 78);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(294, 417);
-            this.tableLayoutPanel1.TabIndex = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(540, 29);
+            this.tableLayoutPanel1.TabIndex = 4;
             // 
-            // radioButtonTheme1
+            // checkBoxRegister
             // 
-            this.radioButtonTheme1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.checkBoxRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButtonTheme1.AutoSize = true;
-            this.radioButtonTheme1.Checked = true;
-            this.radioButtonTheme1.Location = new System.Drawing.Point(3, 38);
-            this.radioButtonTheme1.Name = "radioButtonTheme1";
-            this.radioButtonTheme1.Size = new System.Drawing.Size(288, 29);
-            this.radioButtonTheme1.TabIndex = 0;
-            this.radioButtonTheme1.TabStop = true;
-            this.radioButtonTheme1.Text = "Water breath";
-            this.radioButtonTheme1.UseVisualStyleBackColor = true;
+            this.checkBoxRegister.AutoSize = true;
+            this.checkBoxRegister.Checked = true;
+            this.checkBoxRegister.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxRegister.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxRegister.Name = "checkBoxRegister";
+            this.checkBoxRegister.Size = new System.Drawing.Size(264, 23);
+            this.checkBoxRegister.TabIndex = 1;
+            this.checkBoxRegister.Text = "Register app in Control Panel";
+            this.checkBoxRegister.UseVisualStyleBackColor = true;
             // 
-            // radioButtonTheme2
+            // checkBoxShortcut
             // 
-            this.radioButtonTheme2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.checkBoxShortcut.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButtonTheme2.AutoSize = true;
-            this.radioButtonTheme2.Location = new System.Drawing.Point(3, 223);
-            this.radioButtonTheme2.Name = "radioButtonTheme2";
-            this.radioButtonTheme2.Size = new System.Drawing.Size(288, 29);
-            this.radioButtonTheme2.TabIndex = 1;
-            this.radioButtonTheme2.Text = "Basket of peaches and cherries";
-            this.radioButtonTheme2.UseVisualStyleBackColor = true;
-            // 
-            // pictureBoxTheme2
-            // 
-            this.pictureBoxTheme2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxTheme2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxTheme2.Image")));
-            this.pictureBoxTheme2.Location = new System.Drawing.Point(3, 258);
-            this.pictureBoxTheme2.Name = "pictureBoxTheme2";
-            this.pictureBoxTheme2.Size = new System.Drawing.Size(288, 144);
-            this.pictureBoxTheme2.TabIndex = 2;
-            this.pictureBoxTheme2.TabStop = false;
-            // 
-            // labelTheme
-            // 
-            this.labelTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelTheme.AutoSize = true;
-            this.labelTheme.Location = new System.Drawing.Point(3, 0);
-            this.labelTheme.Name = "labelTheme";
-            this.labelTheme.Size = new System.Drawing.Size(288, 35);
-            this.labelTheme.TabIndex = 3;
-            this.labelTheme.Text = "Pick your theme";
-            this.labelTheme.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // pictureBoxTheme1
-            // 
-            this.pictureBoxTheme1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxTheme1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxTheme1.Image")));
-            this.pictureBoxTheme1.Location = new System.Drawing.Point(3, 73);
-            this.pictureBoxTheme1.Name = "pictureBoxTheme1";
-            this.pictureBoxTheme1.Size = new System.Drawing.Size(288, 144);
-            this.pictureBoxTheme1.TabIndex = 4;
-            this.pictureBoxTheme1.TabStop = false;
+            this.checkBoxShortcut.AutoSize = true;
+            this.checkBoxShortcut.Checked = true;
+            this.checkBoxShortcut.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxShortcut.Location = new System.Drawing.Point(273, 3);
+            this.checkBoxShortcut.Name = "checkBoxShortcut";
+            this.checkBoxShortcut.Size = new System.Drawing.Size(264, 23);
+            this.checkBoxShortcut.TabIndex = 0;
+            this.checkBoxShortcut.Text = "Create desctop shortcut";
+            this.checkBoxShortcut.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -312,15 +234,17 @@
             this.tableLayoutPanelBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelBottom.ColumnCount = 4;
+            this.tableLayoutPanelBottom.ColumnCount = 5;
             this.tableLayoutPanelBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanelBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanelBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanelBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanelBottom.Controls.Add(this.buttonLicense, 0, 0);
-            this.tableLayoutPanelBottom.Controls.Add(this.buttonInstall, 2, 0);
-            this.tableLayoutPanelBottom.Controls.Add(this.buttonExit, 3, 0);
-            this.tableLayoutPanelBottom.Location = new System.Drawing.Point(3, 492);
+            this.tableLayoutPanelBottom.Controls.Add(this.buttonExit, 4, 0);
+            this.tableLayoutPanelBottom.Controls.Add(this.buttonInstall, 3, 0);
+            this.tableLayoutPanelBottom.Controls.Add(this.buttonSettings, 2, 0);
+            this.tableLayoutPanelBottom.Location = new System.Drawing.Point(3, 192);
             this.tableLayoutPanelBottom.Name = "tableLayoutPanelBottom";
             this.tableLayoutPanelBottom.RowCount = 1;
             this.tableLayoutPanelBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -340,19 +264,6 @@
             this.buttonLicense.UseVisualStyleBackColor = true;
             this.buttonLicense.Click += new System.EventHandler(this.buttonLicense_Click);
             // 
-            // buttonInstall
-            // 
-            this.buttonInstall.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonInstall.Location = new System.Drawing.Point(355, 3);
-            this.buttonInstall.Name = "buttonInstall";
-            this.buttonInstall.Size = new System.Drawing.Size(94, 28);
-            this.buttonInstall.TabIndex = 1;
-            this.buttonInstall.Text = "Install";
-            this.buttonInstall.UseVisualStyleBackColor = true;
-            this.buttonInstall.Click += new System.EventHandler(this.buttonInstall_Click);
-            // 
             // buttonExit
             // 
             this.buttonExit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -366,15 +277,41 @@
             this.buttonExit.UseVisualStyleBackColor = true;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
+            // buttonInstall
+            // 
+            this.buttonInstall.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonInstall.Location = new System.Drawing.Point(355, 3);
+            this.buttonInstall.Name = "buttonInstall";
+            this.buttonInstall.Size = new System.Drawing.Size(94, 28);
+            this.buttonInstall.TabIndex = 1;
+            this.buttonInstall.Text = "Install";
+            this.buttonInstall.UseVisualStyleBackColor = true;
+            this.buttonInstall.Click += new System.EventHandler(this.buttonInstall_Click);
+            // 
+            // buttonSettings
+            // 
+            this.buttonSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSettings.Location = new System.Drawing.Point(255, 3);
+            this.buttonSettings.Name = "buttonSettings";
+            this.buttonSettings.Size = new System.Drawing.Size(94, 28);
+            this.buttonSettings.TabIndex = 3;
+            this.buttonSettings.Text = "Settings";
+            this.buttonSettings.UseVisualStyleBackColor = true;
+            this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 553);
+            this.ClientSize = new System.Drawing.Size(582, 253);
             this.Controls.Add(this.tableLayoutPanelRoot);
-            this.MinimumSize = new System.Drawing.Size(600, 600);
+            this.MinimumSize = new System.Drawing.Size(600, 300);
             this.Name = "Form1";
-            this.Text = "bl";
+            this.Text = "Emoticoner installer";
             this.tableLayoutPanelRoot.ResumeLayout(false);
             this.tableLayoutPanelRoot.PerformLayout();
             this.tableLayoutPanelCenter.ResumeLayout(false);
@@ -384,8 +321,6 @@
             this.tableLayoutPanelPath.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTheme2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTheme1)).EndInit();
             this.tableLayoutPanelBottom.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -406,14 +341,10 @@
         private System.Windows.Forms.Label labelPath;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelPath;
         private System.Windows.Forms.TextBox textBoxPath;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button buttonOpen;
-        private System.Windows.Forms.RadioButton radioButtonTheme1;
-        private System.Windows.Forms.RadioButton radioButtonTheme2;
-        private System.Windows.Forms.PictureBox pictureBoxTheme2;
-        private System.Windows.Forms.Label labelTheme;
-        private System.Windows.Forms.PictureBox pictureBoxTheme1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button buttonSettings;
     }
 }
 

@@ -25,6 +25,7 @@ namespace Emoticoner
         private TabControl tabControl;
         private ContextMenu contextMenu = new ContextMenu();
         private EmoticonManager emoticonManager = new EmoticonManager();
+        private SettingsForm settingsForm;
         static public Font OurFont;
 
         // Maybe move it
@@ -82,6 +83,7 @@ namespace Emoticoner
             emoticonManager.Init();
         }
 
+        /* TODO: make something smarter then updatell() */
         private void EmoticonChangedHandle(object sender, ChangeEmoticonEventArgs eventArgs)
         {
             updateAll(sender as EmoticonLayer);
@@ -172,7 +174,6 @@ namespace Emoticoner
             formMoveHook.SetupHandlers(tableLayoutPanelUp);
             formMoveHook.SetupHandlers(tableLayoutPanelDown);
 
-
             /* Init tabControl */
             tabControl = new TabControl()
             {
@@ -231,8 +232,26 @@ namespace Emoticoner
 
         private void menuItemClickSettingsHandler(object sender, EventArgs e)
         {
-            SettingsForm settingsForm = new SettingsForm(settings, this);
-            settingsForm.Show();
+            if (settingsForm == null)
+            {
+                settingsForm = new SettingsForm(settings);
+                settingsForm.Subscribe(settingsClosedHandler);
+            }
+            try
+            {
+                settingsForm.Show();
+            }
+            catch
+            {
+                settingsForm = null;
+                menuItemClickSettingsHandler(sender, e);
+            }
+        }
+
+        private void settingsClosedHandler()
+        {
+            ApplySettings();
+            settingsForm = null;
         }
 
         private void menuItemClickEmoticonManagerHandler(object sender, EventArgs e)

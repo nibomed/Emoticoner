@@ -22,6 +22,7 @@ namespace Installer
         };
 
         Settings settings = new Settings();
+        SettingsForm settingsForm;
         public Form1()
         {
             InitializeComponent();
@@ -52,25 +53,9 @@ namespace Installer
             {
                 CreateShortcut(path);
             }      
-            SetupTheme();
             settings.Save();
             MessageBox.Show("Installation finished succesfull");
             Close();
-        }
-
-        private void SetupTheme()
-        {
-            if (radioButtonTheme1.Checked)
-            {
-                settings.Theme = 0;
-                return;
-            }
-            if (radioButtonTheme2.Checked)
-            {
-                settings.Theme = 1;
-                return;
-            }
-            throw new NotImplementedException();
         }
 
         private void CreateShortcut(string path)
@@ -129,6 +114,22 @@ namespace Installer
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 textBoxPath.Text = folderBrowserDialog1.SelectedPath;
+            }
+        }
+
+        private void buttonSettings_Click(object sender, EventArgs e)
+        {
+            if (settingsForm == null)
+            {
+                settingsForm = new SettingsForm(settings);
+            }
+            try
+            {
+                settingsForm.Show();
+            }
+            catch
+            {
+                settingsForm = null;
             }
         }
     }
