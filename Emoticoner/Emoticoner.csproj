@@ -73,6 +73,7 @@
     <Compile Include="Helpers\Pair.cs" />
     <Compile Include="Helpers\Reg.cs" />
     <Compile Include="Helpers\Serializer.cs" />
+    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

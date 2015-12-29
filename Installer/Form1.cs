@@ -20,6 +20,8 @@ namespace Installer
             "Emoticoner.exe",
             "Emoticons.xml",
         };
+
+        Settings settings = new Settings();
         public Form1()
         {
             InitializeComponent();
@@ -49,8 +51,9 @@ namespace Installer
             if (checkBoxShortcut.Checked)
             {
                 CreateShortcut(path);
-            }
+            }      
             SetupTheme();
+            settings.Save();
             MessageBox.Show("Installation finished succesfull");
             Close();
         }
@@ -59,12 +62,12 @@ namespace Installer
         {
             if (radioButtonTheme1.Checked)
             {
-                SettingsForm.SetupTheme(0);
+                settings.Theme = 0;
                 return;
             }
             if (radioButtonTheme2.Checked)
             {
-                SettingsForm.SetupTheme(1);
+                settings.Theme = 1;
                 return;
             }
             throw new NotImplementedException();
@@ -111,8 +114,8 @@ namespace Installer
                 }
                 System.IO.File.Copy(cur + @"\data\" + "Emoticons.xml", doc + @"\" + "Emoticons.xml", true);
 
-                Reg.Write("HotKeyMod", "1");
-                Reg.Write("HotKeyKey", "e");
+               /* Reg.Write("HotKeyMod", "1");
+                Reg.Write("HotKeyKey", "e");*/
             }
             catch (Exception e){
                 MessageBox.Show(e.Message);

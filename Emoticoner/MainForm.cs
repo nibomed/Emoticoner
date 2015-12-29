@@ -18,6 +18,7 @@ namespace Emoticoner
         public MouseEventHandler mouseClickHandlerRightClickGoTray;
         public FormMoveHook formMoveHook;
         public ColorScheme colorScheme;
+        public Settings settings = new Settings();
 
         private ShortcutHook shortCutHook = new ShortcutHook();
         private EmoticonDatabase emoticonDatabase;
@@ -44,11 +45,42 @@ namespace Emoticoner
         public MainForm()
         {
             InitializeComponent();
+            InitSettings();
             InitializeEventHandlers();
             InitializeComponentByHand();
             Start();
         }
 
+        private void InitSettings()
+        {
+            settings.Load();
+            StringSender.Method = settings.Method;
+            colorScheme = new ColorScheme(settings.Theme);
+
+            buttonMenu.BackColor = colorScheme.colorButton;
+        }
+
+        public void ApplySettings()
+        {
+            shortCutHook.Dispose();
+            InitSettings();
+            setupColors();
+            for (int i = 0; i < tabControl.TabCount; i++)
+            {
+                EmoticonLayer emoticonLayer = tabControl.TabPages[i].Controls[0] as EmoticonLayer;
+                emoticonLayer.Redraw();
+            }
+            shortCutHook = new ShortcutHook();
+            RegisterShortcut();
+
+            emoticonManager.Close();
+            emoticonManager = new EmoticonManager();
+            /* Init EmoticonManager */
+            /* Code dublication */
+            emoticonManager.database = emoticonDatabase;
+            emoticonManager.Tags = emoticonDatabase.tags;
+            emoticonManager.Init();
+        }
 
         private void EmoticonChangedHandle(object sender, ChangeEmoticonEventArgs eventArgs)
         {
@@ -109,25 +141,17 @@ namespace Emoticoner
             KeyPress += new KeyPressEventHandler(KeyPressHandlerEscapeGoTray);
             Resize += new EventHandler(this.HandlerResize);
 
-            int h_mode = int.Parse(Reg.Read("HotKeyMod"));
-            char h_key = char.Parse(Reg.Read("HotKeyKey"));
-            shortCutHook.RegisterHotKey(h_mode, (Keys)char.ToUpper(h_key));
+            RegisterShortcut();
+        }
+
+        private void RegisterShortcut()
+        {
+            shortCutHook.RegisterHotKey(settings.ShortCutMod, (Keys)char.ToUpper(settings.ShortCutKey));
             shortCutHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(HandlerGoFromTray);
         }
 
         private void InitializeComponentByHand()
         {
-            /* Init colorScheme */
-            string theme = Reg.Read("Theme");
-            if (theme != null)
-            {
-                colorScheme = new ColorScheme(int.Parse(theme));
-            }
-            else
-            {
-                colorScheme = new ColorScheme();
-            }
-
             InitializeForm();
 
             /* Init emoticonDatabase */
@@ -139,12 +163,10 @@ namespace Emoticoner
             emoticonManager.Tags = emoticonDatabase.tags;
             emoticonManager.Init();
 
-            /* Init tableLayoutPanelRoot */
+            /* Init tableLayoutPanels */
             tableLayoutPanelRoot.Width = ClientSize.Width;
             tableLayoutPanelRoot.Height = ClientSize.Height;
-            tableLayoutPanelRoot.BackColor = colorScheme.colorMainBG;
-            tableLayoutPanelUp.BackColor = colorScheme.colorSectionBG;
-            tableLayoutPanelDown.BackColor = colorScheme.colorSectionBG;
+            setupColors();
 
             formMoveHook.SetupHandlers(tableLayoutPanelRoot);
             formMoveHook.SetupHandlers(tableLayoutPanelUp);
@@ -172,6 +194,13 @@ namespace Emoticoner
 
             /* Init contextMenu */
             InitializeContestMenu();
+        }
+
+        private void setupColors()
+        {
+            tableLayoutPanelRoot.BackColor = colorScheme.colorMainBG;
+            tableLayoutPanelUp.BackColor = colorScheme.colorSectionBG;
+            tableLayoutPanelDown.BackColor = colorScheme.colorSectionBG;
         }
 
         private void InitializeContestMenu()
@@ -202,7 +231,7 @@ namespace Emoticoner
 
         private void menuItemClickSettingsHandler(object sender, EventArgs e)
         {
-            SettingsForm settingsForm = new SettingsForm();
+            SettingsForm settingsForm = new SettingsForm(settings, this);
             settingsForm.Show();
         }
 
@@ -260,7 +289,6 @@ namespace Emoticoner
             TopMost = true;
             FormBorderStyle = FormBorderStyle.None;
 
-            buttonMenu.BackColor = colorScheme.colorButton;
         }
 
         private void HandlerGoFromTray(object sender, EventArgs e)

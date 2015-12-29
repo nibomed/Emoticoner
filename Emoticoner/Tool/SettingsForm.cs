@@ -14,16 +14,17 @@ namespace Emoticoner.Tool
 {
     public partial class SettingsForm : Form
     {
-        public SettingsForm()
-        {
-            InitializeComponent();
-           // FormBorderStyle = FormBorderStyle.None;
-            TopMost = true;
-        }
+        private Settings settings;
+        /* remove this, use signals*/
+        private MainForm form;
 
-        public static void SetupTheme(int v)
+        public SettingsForm(Settings s, MainForm f)
         {
-            Reg.Write("Theme", v.ToString());
+            settings = s;
+            form = f;
+            InitializeComponent();
+            // FormBorderStyle = FormBorderStyle.None;
+            TopMost = true;
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -39,38 +40,50 @@ namespace Emoticoner.Tool
             }
 
             string h_key = listBoxKey.SelectedItem.ToString();
-            Reg.Write("HotKeyMod", h_mode.ToString());
-            Reg.Write("HotKeyKey", h_key);
+            settings.ShortCutMod = h_mode;
+            settings.ShortCutKey = char.Parse(h_key);
+
+            
             if (radioButtonTheme1.Checked)
             {
-                SetupTheme(0);
+                settings.Theme = 0;
             }
             else
             {
-                SetupTheme(1);
+                settings.Theme = 1;
             }
-
-            MessageBox.Show("Restart app for apply changes");
+            settings.Save();
+ //           MessageBox.Show("Restart app for apply changes");
+            form.ApplySettings();
             Close();
         }
 
         private void SettingsForm_VisibleChanged(object sender, EventArgs e)
         {
-            int h_mode = int.Parse(Reg.Read("HotKeyMod"));
-            char h_key = char.Parse(Reg.Read("HotKeyKey"));
+            int h_mode = settings.ShortCutMod;
+            char h_key = settings.ShortCutKey;
+
             checkBoxAlt.Checked = ((h_mode & (int)ModifierKeysEnum.Alt) > 0);
             checkBoxCtrl.Checked = ((h_mode & (int)ModifierKeysEnum.Control) > 0);
             checkBoxWin.Checked = ((h_mode & (int)ModifierKeysEnum.Win) > 0);
             listBoxKey.SelectedIndex = listBoxKey.Items.IndexOf(h_key.ToString());
 
-            int theme = int.Parse(Reg.Read("Theme"));
-            if (theme == 1)
+            if (settings.Theme == 1)
             {
                 radioButtonTheme2.Checked = true;
             }
             else
             {
                 radioButtonTheme1.Checked = true;
+            }
+
+            if (settings.Method == SendMethod.Clipboard)
+            {
+                radioButtonMethod1.Checked = true;
+            }
+            else
+            {
+                radioButtonMethod2.Checked = true;
             }
         }
     }

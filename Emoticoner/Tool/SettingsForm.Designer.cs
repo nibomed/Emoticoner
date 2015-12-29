@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             this.tableLayoutPanelRoot = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -38,6 +39,10 @@
             this.checkBoxCtrl = new System.Windows.Forms.CheckBox();
             this.checkBoxAlt = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelMethod = new System.Windows.Forms.Label();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.radioButtonMethod1 = new System.Windows.Forms.RadioButton();
+            this.radioButtonMethod2 = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonClose = new System.Windows.Forms.Button();
             this.radioButtonTheme1 = new System.Windows.Forms.RadioButton();
@@ -46,10 +51,12 @@
             this.labelTheme = new System.Windows.Forms.Label();
             this.pictureBoxTheme1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanelRoot.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTheme2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTheme1)).BeginInit();
@@ -65,12 +72,15 @@
             this.tableLayoutPanelRoot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelRoot.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanelRoot.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanelRoot.Controls.Add(this.labelMethod, 0, 2);
+            this.tableLayoutPanelRoot.Controls.Add(this.tableLayoutPanel6, 0, 3);
             this.tableLayoutPanelRoot.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelRoot.Name = "tableLayoutPanelRoot";
-            this.tableLayoutPanelRoot.RowCount = 4;
+            this.tableLayoutPanelRoot.RowCount = 5;
             this.tableLayoutPanelRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanelRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 300F));
+            this.tableLayoutPanelRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanelRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanelRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelRoot.Size = new System.Drawing.Size(206, 523);
             this.tableLayoutPanelRoot.TabIndex = 0;
@@ -89,8 +99,8 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 294F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(200, 294);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 144F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(200, 144);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // tableLayoutPanel5
@@ -108,7 +118,7 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(94, 288);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(94, 138);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
             // listBoxKey
@@ -168,7 +178,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(94, 288);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(94, 138);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // checkBoxWin
@@ -222,6 +232,61 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Shortcut";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // labelMethod
+            // 
+            this.labelMethod.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelMethod.AutoSize = true;
+            this.labelMethod.Location = new System.Drawing.Point(3, 190);
+            this.labelMethod.Name = "labelMethod";
+            this.labelMethod.Size = new System.Drawing.Size(200, 40);
+            this.labelMethod.TabIndex = 2;
+            this.labelMethod.Text = "Send method";
+            this.labelMethod.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel6.Controls.Add(this.radioButtonMethod1, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.radioButtonMethod2, 0, 1);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 233);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 2;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(200, 54);
+            this.tableLayoutPanel6.TabIndex = 3;
+            // 
+            // radioButtonMethod1
+            // 
+            this.radioButtonMethod1.AutoSize = true;
+            this.radioButtonMethod1.Location = new System.Drawing.Point(3, 3);
+            this.radioButtonMethod1.Name = "radioButtonMethod1";
+            this.radioButtonMethod1.Size = new System.Drawing.Size(134, 21);
+            this.radioButtonMethod1.TabIndex = 0;
+            this.radioButtonMethod1.TabStop = true;
+            this.radioButtonMethod1.Text = "Direct keys send";
+            this.toolTip1.SetToolTip(this.radioButtonMethod1, "(Default value) Input may be different for any languages on some Windows.");
+            this.radioButtonMethod1.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonMethod2
+            // 
+            this.radioButtonMethod2.AutoSize = true;
+            this.radioButtonMethod2.Location = new System.Drawing.Point(3, 30);
+            this.radioButtonMethod2.Name = "radioButtonMethod2";
+            this.radioButtonMethod2.Size = new System.Drawing.Size(127, 21);
+            this.radioButtonMethod2.TabIndex = 1;
+            this.radioButtonMethod2.TabStop = true;
+            this.radioButtonMethod2.Text = "Using clipboard";
+            this.toolTip1.SetToolTip(this.radioButtonMethod2, "May clear current state of clipboard\r\n");
+            this.radioButtonMethod2.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -356,6 +421,8 @@
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTheme2)).EndInit();
@@ -384,5 +451,10 @@
         private System.Windows.Forms.CheckBox checkBoxAlt;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Label labelMethod;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.RadioButton radioButtonMethod1;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.RadioButton radioButtonMethod2;
     }
 }

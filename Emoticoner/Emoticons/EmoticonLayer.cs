@@ -87,6 +87,13 @@ namespace Emoticoner.Emoticons
             }
         }
 
+        internal void Redraw()
+        {
+            colorScheme = new ColorScheme();
+            BackColor = colorScheme.colorEmoticonLayerBG;
+            UpdateElement();
+        }
+
         private void setColumStyles()
         {
             for (int i = 0; i < ColumnCount; i++)
